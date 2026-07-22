@@ -34,13 +34,18 @@ class TransactionViewModel @Inject constructor(
             transaction?.let { t ->
                 _uiState.update {
                     it.copy(
+                        isLoading = false,
                         title = t.title,
                         amount = t.amount.toString(),
                         type = t.type,
                         category = t.category,
                         paymentMethod = t.paymentMethod,
                         note = t.note,
-                        date = t.date
+                        date = t.date,
+                        bankName = (transaction.paymentMethod
+                                as? PaymentMethod.Credit)?.bankName ?: "",
+                        walletName = (transaction.paymentMethod
+                                as? PaymentMethod.EWallet)?.walletName ?: ""
                     )
                 }
             }
