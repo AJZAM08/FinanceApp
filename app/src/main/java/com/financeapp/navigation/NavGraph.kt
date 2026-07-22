@@ -8,10 +8,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.financeapp.presentation.screen.dashboard.DashboardScreen
+import com.financeapp.presentation.screen.onboarding.OnboardingScreen
+import com.financeapp.presentation.screen.splash.SplashScreen
 import com.financeapp.presentation.screen.transaction.AddTransactionScreen
 import com.financeapp.presentation.screen.transaction.TransactionListScreen
 
 sealed class Screen(val route: String) {
+    object Splash : Screen("splash")
+    object Onboarding : Screen("onboarding")
     object Dashboard : Screen("dashboard")
     object AddTransaction : Screen("add_transaction")
     object TransactionList : Screen("transaction_list")
@@ -26,8 +30,39 @@ fun FinanceNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Dashboard.route
+        startDestination = Screen.Splash.route
     ) {
+        composable(route = Screen.Splash.route) {
+            SplashScreen(
+                onNavigateToDashboard = {
+                    navController.navigate(Screen.Dashboard.route) {
+                        popUpTo(Screen.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onNavigateToOnboarding = {
+                    navController.navigate(Screen.Onboarding.route) {
+                        popUpTo(Screen.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
+        composable(route = Screen.Onboarding.route) {
+            OnboardingScreen(
+                onNavigateToDashboard = {
+                    navController.navigate(Screen.Dashboard.route) {
+                        popUpTo(Screen.Onboarding.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
         composable(route = Screen.Dashboard.route) {
             DashboardScreen(
                 onNavigateToAddTransaction = {
