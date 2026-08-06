@@ -14,6 +14,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindTransactionRepository(
-        transactionRepositoryImpl: TransactionRepositoryImpl
+        transactionRepositoryImpl: TransactionRepositoryImpl,
     ): TransactionRepository
 }

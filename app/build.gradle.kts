@@ -64,7 +64,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
 
     // Material Icons
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.material.icons.extended)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -97,4 +97,9 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Security
+    implementation(libs.sqlcipher)
+    implementation(libs.rootbeer)
+    implementation(libs.androidx.security.crypto)
 }
