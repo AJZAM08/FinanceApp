@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    private val dao: TransactionDao
+    private val dao: TransactionDao,
 ) : TransactionRepository {
 
     // CREATE

@@ -9,7 +9,7 @@ import com.financeapp.data.local.entity.TransactionEntity
 @Database(
     entities = [TransactionEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = true,
 )
 
 @TypeConverters(DateConverter::class)
