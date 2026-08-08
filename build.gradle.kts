@@ -4,4 +4,5 @@ plugins {
     alias(libs.plugins.kotlin.ksp) apply false
     alias(libs.plugins.hilt.android) apply false
     alias(libs.plugins.androidx.room) apply false
+    alias(libs.plugins.junit5.android) apply false
 }

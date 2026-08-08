@@ -1,6 +1,7 @@
 package com.financeapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,6 +13,7 @@ import com.financeapp.presentation.screen.onboarding.OnboardingScreen
 import com.financeapp.presentation.screen.splash.SplashScreen
 import com.financeapp.presentation.screen.transaction.AddTransactionScreen
 import com.financeapp.presentation.screen.transaction.TransactionListScreen
+import com.financeapp.presentation.screen.statistics.StatisticsScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -19,6 +21,7 @@ sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
     object AddTransaction : Screen("add_transaction")
     object TransactionList : Screen("transaction_list")
+    object Statistics : Screen("statistics")
     object EditTransaction : Screen("edit_transaction/{transactionId}") {
         fun createRoute(id: Long) = "edit_transaction/$id"
     }
@@ -26,13 +29,13 @@ sealed class Screen(val route: String) {
 
 @Composable
 fun FinanceNavGraph(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
         navController = navController,
         startDestination = Screen.Splash.route
     ) {
-        composable(route = Screen.Splash.route) {
+        composable(route = Screen.Splash.route) { _ ->
             SplashScreen(
                 onNavigateToDashboard = {
                     navController.navigate(Screen.Dashboard.route) {
@@ -51,7 +54,7 @@ fun FinanceNavGraph(
             )
         }
 
-        composable(route = Screen.Onboarding.route) {
+        composable(route = Screen.Onboarding.route) { _ ->
             OnboardingScreen(
                 onNavigateToDashboard = {
                     navController.navigate(Screen.Dashboard.route) {
@@ -63,7 +66,7 @@ fun FinanceNavGraph(
             )
         }
 
-        composable(route = Screen.Dashboard.route) {
+        composable(route = Screen.Dashboard.route) { _ ->
             DashboardScreen(
                 onNavigateToAddTransaction = {
                     navController.navigate(Screen.AddTransaction.route)
@@ -75,17 +78,26 @@ fun FinanceNavGraph(
                 },
                 onNavigateToTransactionList = {
                     navController.navigate(Screen.TransactionList.route)
+                },
+                onNavigateToStatistics = {
+                    navController.navigate(Screen.Statistics.route)
                 }
             )
         }
 
-        composable(route = Screen.AddTransaction.route) {
+        composable(route = Screen.Statistics.route) { _ ->
+            StatisticsScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Screen.AddTransaction.route) { _ ->
             AddTransactionScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }
 
-        composable(route = Screen.TransactionList.route) {
+        composable(route = Screen.TransactionList.route) { _ ->
             TransactionListScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToEditTransaction = { id ->
@@ -103,7 +115,7 @@ fun FinanceNavGraph(
                     type = NavType.LongType
                 }
             )
-        ) { backStackEntry ->
+        ) { backStackEntry: NavBackStackEntry ->
             val transactionId = backStackEntry
                 .arguments
                 ?.getLong("transactionId") ?: 0L
