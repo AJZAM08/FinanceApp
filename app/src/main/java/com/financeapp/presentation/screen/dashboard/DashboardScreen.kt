@@ -2,7 +2,6 @@ package com.financeapp.presentation.screen.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +41,8 @@ fun DashboardScreen(
     onNavigateToAddTransaction: () -> Unit,
     onNavigateToEditTransaction: (Long) -> Unit,
     onNavigateToTransactionList: () -> Unit,
-    viewModel: DashboardViewModel = hiltViewModel()
+    onNavigateToStatistics: () -> Unit,
+    viewModel: DashboardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -100,14 +100,25 @@ fun DashboardScreen(
                 }
 
                 item {
-                    Text(
-                        text = "Transaksi Terbaru",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(vertical = 4.dp)
-                    )
-                    TextButton(onClick = onNavigateToTransactionList) {
-                        Text("Lihat Semua")
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Transaksi Terbaru",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
+                        Row {
+                            TextButton(onClick = onNavigateToStatistics) {
+                                Text("Statistik")
+                            }
+                            TextButton(onClick = onNavigateToTransactionList) {
+                                Text("Lihat Semua")
+                            }
+                        }
                     }
                 }
                 if (uiState.recentTransactions.isEmpty()) {

@@ -47,7 +47,6 @@ import com.financeapp.presentation.component.CategoryPickerBottomSheet
 import com.financeapp.presentation.component.PaymentMethodPicker
 import com.financeapp.presentation.component.toDisplay
 import java.time.Instant
-import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
@@ -56,13 +55,13 @@ import java.time.format.DateTimeFormatter
 fun AddTransactionScreen(
     onNavigateBack: () -> Unit,
     transactionId: Long? = null,
-    viewModel: TransactionViewModel = hiltViewModel()
+    viewModel: TransactionViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var showCategoryPicker by remember { mutableStateOf(false) }
-    var showDatePicker by remember { mutableStateOf(false) }
+    var showCategoryPicker by remember { mutableStateOf(value = false) }
+    var showDatePicker by remember { mutableStateOf(value = false) }
 
     LaunchedEffect(transactionId) {
         transactionId?.let { viewModel.loadTransaction(it) }
@@ -118,9 +117,10 @@ fun AddTransactionScreen(
         CategoryPickerBottomSheet(
             selectedCategory = uiState.category,
             transactionType = uiState.type,
-            onCategorySelected = viewModel::onCategoryChange,
-            onDismiss = { showCategoryPicker = false }
-        )
+            onCategorySelected = viewModel::onCategoryChange
+        ) {
+            showCategoryPicker = false
+        }
     }
 
     Scaffold(

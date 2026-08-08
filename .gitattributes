@@ -1,0 +1,14 @@
+# Normalkan semua file teks ke LF di repository
+* text=auto eol=lf
+
+# File Kotlin dan kode selalu LF
+*.kt text eol=lf
+*.kts text eol=lf
+*.xml text eol=lf
+*.md text eol=lf
+
+# File binary, jangan diubah
+*.png binary
+*.jpg binary
+*.keystore binary
+*.jks binary
