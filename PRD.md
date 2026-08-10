@@ -1,7 +1,7 @@
 # Product Requirements Document (PRD)
 ## Finance App — Personal Finance Manager
-**Version:** 1.0.0
-**Last Updated:** Juli 2026
+**Version:** 0.4.0
+**Last Updated:** Agustus 2026
 **Status:** In Development
 **Platform:** Android
 
@@ -11,7 +11,7 @@
 
 ### 1.1 Ringkasan Produk
 
-Finance App adalah aplikasi manajemen keuangan pribadi berbasis Android yang memungkinkan pengguna mencatat, memantau, dan menganalisis pemasukan serta pengeluaran secara real-time. Aplikasi ini dirancang dengan pendekatan keamanan tinggi mengingat sensitivitas data keuangan pengguna.
+Finance App adalah aplikasi manajemen keuangan pribadi berbasis Android yang memungkinkan pengguna mencatat, memantau, dan menganalisis pemasukan serta pengeluaran secara real-time. Aplikasi ini dirancang dengan pendekatan keamanan tinggi mengingat sensitivitas data keuangan pengguna, dengan data tersimpan sepenuhnya secara lokal dan terenkripsi di perangkat pengguna.
 
 ### 1.2 Visi Produk
 
@@ -39,7 +39,7 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 ### 2.1 Business Goals
 
-- Mencapai 10.000 pengguna aktif dalam 6 bulan pertama
+- Mencapai 10.000 pengguna aktif dalam 6 bulan pertama setelah rilis di Play Store
 - Rating minimal 4.2 di Google Play Store
 - Retensi pengguna 30 hari minimal 40%
 
@@ -47,7 +47,7 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 - Pengguna dapat mencatat transaksi dalam waktu < 30 detik
 - Pengguna dapat melihat ringkasan keuangan setiap hari
-- Pengguna mendapat insight pengeluaran per kategori
+- Pengguna mendapat insight pengeluaran per kategori dalam bentuk grafik visual
 
 ### 2.3 Key Metrics (KPI)
 
@@ -63,81 +63,99 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 ## 3. Features & Requirements
 
-### 3.1 Fase 1 — Core Features (MVP) ✅ In Development
+### 3.1 Fase 1 — Core Features (MVP) ✅ Done
 
 #### 3.1.1 Onboarding
 
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| F-001 | Splash screen dengan branding aplikasi | High |
-| F-002 | Onboarding 3 halaman dengan swipe gesture | High |
-| F-003 | Simpan status onboarding di local storage | High |
-| F-004 | Skip onboarding tersedia | Medium |
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| F-001 | Splash screen dengan branding aplikasi | High | ✅ Done |
+| F-002 | Onboarding 3 halaman dengan swipe gesture (HorizontalPager) | High | ✅ Done |
+| F-003 | Simpan status onboarding di local storage (Jetpack DataStore) | High | ✅ Done |
+| F-004 | Skip onboarding tersedia (tombol "Lewati") | Medium | ✅ Done |
 
 #### 3.1.2 Pencatatan Transaksi
 
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| F-010 | Catat transaksi pemasukan | High |
-| F-011 | Catat transaksi pengeluaran | High |
-| F-012 | Input judul transaksi | High |
-| F-013 | Input nominal dalam Rupiah | High |
-| F-014 | Pilih kategori transaksi | High |
-| F-015 | Pilih metode pembayaran (Cash/Debit/Credit/E-Wallet) | High |
-| F-016 | Input nama bank untuk pembayaran kredit | Medium |
-| F-017 | Input nama e-wallet untuk pembayaran digital | Medium |
-| F-018 | Pilih tanggal transaksi | High |
-| F-019 | Input catatan opsional | Low |
-| F-020 | Edit transaksi yang sudah ada | High |
-| F-021 | Hapus transaksi | High |
-| F-022 | Validasi input sebelum simpan | High |
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| F-010 | Catat transaksi pemasukan | High | ✅ Done |
+| F-011 | Catat transaksi pengeluaran | High | ✅ Done |
+| F-012 | Input judul transaksi | High | ✅ Done |
+| F-013 | Input nominal dalam Rupiah | High | ✅ Done |
+| F-014 | Pilih kategori transaksi (12 kategori dengan ikon & warna) | High | ✅ Done |
+| F-015 | Pilih metode pembayaran (Cash / Debit / Credit / E-Wallet) | High | ✅ Done |
+| F-016 | Input nama bank untuk pembayaran kredit | Medium | ✅ Done |
+| F-017 | Input nama e-wallet untuk pembayaran digital | Medium | ✅ Done |
+| F-018 | Pilih tanggal transaksi (Material 3 DatePickerDialog) | High | ✅ Done |
+| F-019 | Input catatan opsional | Low | ✅ Done |
+| F-020 | Edit transaksi yang sudah ada | High | ✅ Done |
+| F-021 | Hapus transaksi | High | ✅ Done |
+| F-022 | Validasi input sebelum simpan (di Use Case layer) | High | ✅ Done |
 
 #### 3.1.3 Dashboard & Overview
 
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| F-030 | Tampilkan total saldo (pemasukan - pengeluaran) | High |
-| F-031 | Tampilkan total pemasukan | High |
-| F-032 | Tampilkan total pengeluaran | High |
-| F-033 | Tampilkan 5 transaksi terbaru | High |
-| F-034 | Navigasi ke list transaksi lengkap | High |
-| F-035 | Real-time update saat ada transaksi baru | High |
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| F-030 | Tampilkan total saldo (pemasukan - pengeluaran) | High | ✅ Done |
+| F-031 | Tampilkan total pemasukan | High | ✅ Done |
+| F-032 | Tampilkan total pengeluaran | High | ✅ Done |
+| F-033 | Tampilkan 5 transaksi terbaru | High | ✅ Done |
+| F-034 | Navigasi ke halaman riwayat transaksi lengkap | High | ✅ Done |
+| F-035 | Real-time update via Kotlin Flow saat ada transaksi baru | High | ✅ Done |
 
 #### 3.1.4 Riwayat Transaksi
 
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| F-040 | Tampilkan semua transaksi | High |
-| F-041 | Urutkan berdasarkan tanggal terbaru | High |
-| F-042 | Tampilkan ikon dan warna per kategori | Medium |
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| F-040 | Tampilkan semua transaksi | High | ✅ Done |
+| F-041 | Urutkan berdasarkan tanggal terbaru (ORDER BY date DESC) | High | ✅ Done |
+| F-042 | Tampilkan ikon dan warna per kategori di setiap item transaksi | Medium | ✅ Done |
 
 ---
 
-### 3.2 Fase 2 — Enhanced Features 🔜 Planned
+### 3.2 Fase 1.5 — Security ✅ Done
 
-#### 3.2.1 Filter & Pencarian
-
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| F-050 | Filter transaksi berdasarkan kategori | High |
-| F-051 | Filter transaksi berdasarkan rentang tanggal | High |
-| F-052 | Filter berdasarkan tipe (pemasukan/pengeluaran) | High |
-| F-053 | Cari transaksi berdasarkan judul | Medium |
-
-#### 3.2.2 Statistik & Analisis
-
-| ID | Requirement | Priority |
-|----|-------------|----------|
-| F-060 | Grafik pengeluaran per kategori (pie chart) | High |
-| F-061 | Grafik tren pengeluaran bulanan (line chart) | High |
-| F-062 | Perbandingan pengeluaran bulan ini vs bulan lalu | Medium |
-| F-063 | Kategori pengeluaran terbesar | High |
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| S-001 | Enkripsi database lokal dengan SQLCipher AES-256 | Critical | ✅ Done |
+| S-002 | Manajemen kunci enkripsi via Android Keystore | Critical | ✅ Done |
+| S-003 | Penyimpanan kunci aman via EncryptedSharedPreferences | High | ✅ Done |
+| S-004 | Pencegahan screenshot & screen recording (FLAG_SECURE) | High | ✅ Done |
+| S-005 | Deteksi perangkat root (RootBeer library) | High | ✅ Done |
+| S-006 | Tampilkan layar peringatan jika perangkat ter-root | High | ✅ Done |
+| S-007 | ProGuard/R8 aktif pada release build | Medium | ✅ Done |
 
 ---
 
-### 3.3 Fase 3 — Advanced Features 📋 Backlog
+### 3.3 Fase 2 — Enhanced Features ✅ Done
 
-#### 3.3.1 Export & Backup
+#### 3.3.1 Filter & Pencarian
+
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| F-050 | Filter transaksi berdasarkan kategori (12 kategori tersedia) | High | ✅ Done |
+| F-051 | Filter transaksi berdasarkan rentang tanggal (DateRangePicker) | High | ✅ Done |
+| F-052 | Filter berdasarkan tipe (Pemasukan / Pengeluaran) | High | ✅ Done |
+| F-053 | Cari transaksi berdasarkan judul (real-time search bar) | Medium | ✅ Done |
+| F-054 | Reset semua filter sekaligus | Low | ✅ Done |
+| F-055 | Skeleton loader (shimmer) saat data dimuat | Low | ✅ Done |
+
+#### 3.3.2 Statistik & Analisis
+
+| ID | Requirement | Priority | Status |
+|----|-------------|----------|--------|
+| F-060 | Grafik distribusi per kategori — Donut Chart (Canvas Compose) | High | ✅ Done |
+| F-061 | Grafik tren pengeluaran bulanan — Bar Chart (4 bulan terakhir) | High | ✅ Done |
+| F-062 | Perbandingan pengeluaran bulan ini vs bulan lalu (teks dinamis) | Medium | ✅ Done |
+| F-063 | Pemilih periode: Bulan Ini, Bulan Lalu, Semua Waktu | High | ✅ Done |
+| F-064 | Toggle tampilan Pengeluaran / Pemasukan di halaman statistik | Medium | ✅ Done |
+| F-065 | Indikator visual perbandingan (ikon naik/turun dengan warna) | Low | ✅ Done |
+
+---
+
+### 3.4 Fase 3 — Advanced Features 📋 Backlog
+
+#### 3.4.1 Export & Backup
 
 | ID | Requirement | Priority |
 |----|-------------|----------|
@@ -146,7 +164,7 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 | F-072 | Backup data ke Google Drive | High |
 | F-073 | Restore data dari backup | High |
 
-#### 3.3.2 Sinkronisasi Cloud
+#### 3.4.2 Sinkronisasi Cloud
 
 | ID | Requirement | Priority |
 |----|-------------|----------|
@@ -156,7 +174,7 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 ---
 
-### 3.4 Fase 4 — Authentication 📋 Backlog
+### 3.5 Fase 4 — Authentication 📋 Backlog
 
 | ID | Requirement | Priority |
 |----|-------------|----------|
@@ -170,7 +188,7 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 ---
 
-### 3.5 Fase 5 — AI Features 📋 Backlog
+### 3.6 Fase 5 — AI Features 📋 Backlog
 
 | ID | Requirement | Priority |
 |----|-------------|----------|
@@ -196,25 +214,26 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 ### 4.2 Security
 
-| Requirement | Implementation |
-|-------------|---------------|
-| Database encryption | SQLCipher AES-256 |
-| Screenshot prevention | FLAG_SECURE |
-| Root detection | RootBeer library |
-| Network security | HTTPS only, Network Security Config |
-| Secure storage | EncryptedSharedPreferences |
-| Passphrase management | Android Keystore |
-| Reverse engineering protection | ProGuard/R8 obfuscation |
+| Requirement | Implementation | Status |
+|-------------|---------------|--------|
+| Database encryption | SQLCipher AES-256 via `SupportOpenHelperFactory` | ✅ Implemented |
+| Screenshot prevention | `WindowManager.FLAG_SECURE` di MainActivity | ✅ Implemented |
+| Root detection | RootBeer library, dialihkan ke `RootedDeviceScreen` | ✅ Implemented |
+| Secure key storage | Android Keystore + EncryptedSharedPreferences | ✅ Implemented |
+| Input validation | Validasi di layer Use Case (domain layer) | ✅ Implemented |
+| Network security | HTTPS only, Network Security Config (untuk Fase Cloud) | 📋 Planned |
+| Reverse engineering protection | ProGuard/R8 aktif di release build | ✅ Implemented |
 
 ### 4.3 Compatibility
 
 | Requirement | Value |
 |-------------|-------|
 | Minimum Android version | Android 8.0 (API 26) |
-| Target Android version | Android 14 (API 34) |
+| Target Android version | Android 15 (API 35) |
+| Compiled SDK | API 37 |
 | Screen sizes | Phone & Tablet |
 | Orientations | Portrait (primary), Landscape |
-| Dark mode | Supported |
+| Dark mode | Fully supported (Material 3 dynamic theming) |
 
 ### 4.4 Quality Standards (ISO 25010)
 
@@ -226,7 +245,7 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 | Usability | Task completion rate > 90% |
 | Reliability | Crash rate < 0.5%, uptime 99.9% |
 | Security | Lulus OWASP Mobile Top 10 |
-| Maintainability | Code coverage > 70%, Clean Architecture |
+| Maintainability | Code coverage > 70%, Clean Architecture (Unit Test dengan JUnit 5 + MockK) |
 | Portability | Mendukung berbagai ukuran layar |
 
 ---
@@ -237,31 +256,44 @@ Banyak orang tidak mengetahui ke mana uang mereka pergi setiap bulan karena:
 
 ```
 Presentation Layer  →  Jetpack Compose + Material Design 3
-Domain Layer        →  Pure Kotlin (Use Cases, Domain Models)
-Data Layer          →  Room Database + Retrofit + DataStore
+Domain Layer        →  Pure Kotlin (Use Cases, Domain Models, Repository Interfaces)
+Data Layer          →  Room + SQLCipher + Retrofit + DataStore
+DI Layer            →  Hilt (Dagger)
 ```
 
-### 5.2 Libraries
+**Pola Arsitektur:** Clean Architecture + MVVM
+**Build Tool:** Gradle 9.2.1 dengan Kotlin DSL (`.kts`)
+**Annotation Processing:** KSP (Kotlin Symbol Processing)
 
-| Kategori | Library | Versi |
-|----------|---------|-------|
-| UI | Jetpack Compose BOM | 2026.02.01 |
-| Navigation | Navigation Compose | 2.9.0 |
-| Database | Room + SQLCipher | 2.7.1 + 4.5.4 |
+### 5.2 Libraries (Versi Aktual)
+
+| Kategori | Library | Versi Aktual |
+|----------|---------|--------------|
+| UI | Jetpack Compose BOM | 2026.06.01 |
+| Navigation | Navigation Compose | 2.9.8 |
+| Database | Room | 2.8.4 |
+| Enkripsi DB | SQLCipher Android | 4.17.0 |
 | DI | Hilt | 2.60.1 |
-| Async | Kotlin Coroutines | 1.10.2 |
-| Preferences | DataStore | 1.1.4 |
-| Networking | Retrofit + OkHttp | 2.11.0 + 4.12.0 |
-| Security | Security Crypto | 1.1.0-alpha06 |
-| Root Detection | RootBeer | 0.1.0 |
+| DI (Compose) | Hilt Navigation Compose | 1.4.0 |
+| Async | Kotlin Coroutines | 1.11.0 |
+| Preferences | Jetpack DataStore | 1.2.1 |
+| Networking | Retrofit | 3.0.0 |
+| Networking | OkHttp Logging Interceptor | 5.4.0 |
+| Security | Security Crypto | 1.1.0 |
+| Root Detection | RootBeer | 0.1.2 |
+| Testing | JUnit 5 (Jupiter) | 6.1.2 |
+| Testing | MockK | 1.14.11 |
+| Testing | Turbine (Flow testing) | 1.2.1 |
+| Testing | Coroutines Test | 1.11.0 |
 
 ### 5.3 Development Tools
 
-| Tool | Keterangan |
-|------|------------|
+| Tool | Versi / Keterangan |
+|------|-------------------|
 | Android Studio | Meerkat 2026.1.1 |
 | Kotlin | 2.4.10 |
-| Gradle | 9.2.1 |
+| AGP (Android Gradle Plugin) | 9.2.1 |
+| KSP | 2.3.10 |
 | Git | Version control |
 | GitHub | Repository & CI/CD |
 
@@ -273,22 +305,26 @@ Data Layer          →  Room Database + Retrofit + DataStore
 Install App
     │
     ▼
-Splash Screen (2 detik)
+Splash Screen (Cek status onboarding via DataStore)
     │
-    ├── Pengguna Baru → Onboarding (3 halaman) → Dashboard
+    ├── Pengguna Baru → Onboarding (3 halaman, HorizontalPager) → Dashboard
     │
     └── Pengguna Lama → Dashboard
                             │
-            ┌───────────────┼───────────────┐
-            ▼               ▼               ▼
-    Tambah Transaksi  Lihat Riwayat   Lihat Statistik
-            │               │
-            ▼               ▼
-    Form Input        List Transaksi
-    (Judul, Nominal,       │
-     Kategori,             ▼
-     Pembayaran,      Edit/Hapus
-     Tanggal)         Transaksi
+        ┌───────────────────┼──────────────────────┐
+        ▼                   ▼                      ▼
+Tambah Transaksi     Lihat Riwayat           Lihat Statistik
+        │                   │                      │
+        ▼                   ▼               ┌──────┴──────┐
+ Form Input           List Transaksi        Pie Chart   Bar Chart
+ (Judul, Nominal,      (Bisa di-filter     per Kategori  Bulanan
+  Kategori,             Kategori, Tipe,
+  Pembayaran,           Tanggal, Search)
+  Tanggal, Catatan)         │
+        │                   ▼
+        ▼             Edit / Hapus
+  Simpan / Edit        Transaksi
+  Transaksi
 ```
 
 ---
@@ -297,19 +333,25 @@ Splash Screen (2 detik)
 
 ### 7.1 Design System
 
-- **Framework:** Material Design 3
-- **Color Scheme:** Dynamic color (mengikuti wallpaper Android 12+)
+- **Framework:** Material Design 3 (Material You)
+- **Color Scheme:** Dynamic color (mengikuti wallpaper Android 12+), dengan tema fallback
 - **Typography:** Default Material 3 type scale
 - **Dark Mode:** Fully supported
+- **Loading Pattern:** Shimmer Skeleton Loader (bukan CircularProgressIndicator)
+- **Animasi:** Canvas-based chart animation, slide-in untuk list items
 
 ### 7.2 Komponen Utama
 
-| Komponen | Deskripsi |
-|----------|-----------|
-| BalanceCard | Kartu utama menampilkan saldo, pemasukan, pengeluaran |
-| TransactionCard | Card per transaksi dengan warna merah/hijau |
-| CategoryPickerBottomSheet | Bottom sheet grid pilih kategori dengan icon |
-| PaymentMethodPicker | Chip selector untuk metode pembayaran |
+| Komponen | File | Deskripsi |
+|----------|------|-----------|
+| `BalanceCard` | `BalanceCard.kt` | Kartu utama menampilkan saldo, pemasukan, pengeluaran |
+| `TransactionCard` | `TransactionCard.kt` | Card per transaksi dengan ikon kategori berwarna + warna nominal |
+| `CategoryPickerBottomSheet` | `CategoryPickerBottomSheet.kt` | Bottom sheet grid pilih kategori dengan ikon |
+| `PaymentMethodPicker` | `PaymentMethodPicker.kt` | Chip selector untuk metode pembayaran |
+| `PieChart` | `CustomCharts.kt` | Donut chart animasi untuk distribusi kategori |
+| `MonthlyBarChart` | `CustomCharts.kt` | Bar chart gradien untuk tren bulanan |
+| `TransactionItemSkeleton` | `SkeletonLoader.kt` | Shimmer placeholder item transaksi saat loading |
+| `BalanceCardSkeleton` | `SkeletonLoader.kt` | Shimmer placeholder balance card saat loading |
 
 ### 7.3 Color Coding Transaksi
 
@@ -318,26 +360,44 @@ Pemasukan  →  Hijau  (#2E7D32)
 Pengeluaran →  Merah  (#C62828)
 ```
 
+### 7.4 Kategori Transaksi yang Tersedia (12 Kategori)
+
+| Kategori | Label Indonesia | Tipe |
+|----------|----------------|------|
+| FOOD | Makanan | Pengeluaran |
+| TRANSPORT | Transportasi | Pengeluaran |
+| SHOPPING | Belanja | Pengeluaran |
+| HEALTH | Kesehatan | Pengeluaran |
+| ENTERTAINMENT | Hiburan | Pengeluaran |
+| EDUCATION | Pendidikan | Pengeluaran |
+| BILLS | Tagihan | Pengeluaran |
+| SALARY | Gaji | Pemasukan |
+| FREELANCE | Freelance | Pemasukan |
+| INVESTMENT | Investasi | Pemasukan |
+| GIFT | Hadiah | Pemasukan / Pengeluaran |
+| OTHER | Lainnya | Pemasukan / Pengeluaran |
+
 ---
 
 ## 8. Security Requirements
 
 ### 8.1 OWASP Mobile Top 10 Compliance
 
-| OWASP ID | Ancaman | Mitigasi |
-|----------|---------|----------|
-| M1 | Improper Credential Usage | EncryptedSharedPreferences + Android Keystore |
-| M4 | Insufficient Input/Output Validation | Validasi di Use Case layer |
-| M8 | Security Misconfiguration | Network Security Config |
-| M9 | Insecure Data Storage | SQLCipher AES-256 |
-| M10 | Insufficient Cryptography | Android Keystore untuk key management |
+| OWASP ID | Ancaman | Mitigasi | Status |
+|----------|---------|----------|--------|
+| M1 | Improper Credential Usage | EncryptedSharedPreferences + Android Keystore | ✅ Done |
+| M4 | Insufficient Input/Output Validation | Validasi di Use Case layer (domain layer) | ✅ Done |
+| M8 | Security Misconfiguration | FLAG_SECURE, Root Detection, Network Security Config | ✅ Partial |
+| M9 | Insecure Data Storage | SQLCipher AES-256 via SupportOpenHelperFactory | ✅ Done |
+| M10 | Insufficient Cryptography | Android Keystore untuk key management passphrase | ✅ Done |
 
 ### 8.2 Data Privacy
 
-- Semua data disimpan lokal di device pengguna (Fase 1)
+- Semua data disimpan lokal di device pengguna (Fase 1 & 2)
 - Tidak ada data yang dikirim ke server tanpa persetujuan user
-- Data dienkripsi at-rest menggunakan SQLCipher
-- Backup terenkripsi (Fase 3)
+- Data dienkripsi at-rest menggunakan SQLCipher AES-256
+- Passphrase dikelola oleh Android Keystore (tidak pernah disimpan plain text)
+- Backup terenkripsi akan diimplementasikan di Fase 3
 
 ---
 
@@ -358,12 +418,13 @@ PATCH → Bug fix
 
 | Version | Fase | Target | Status |
 |---------|------|--------|--------|
-| 0.1.0 | Setup & Arsitektur | Selesai | ✅ Done |
-| 0.2.0 | Core Features MVP | Q3 2026 | 🔄 In Progress |
-| 0.3.0 | Security | Q3 2026 | 🔄 In Progress |
-| 0.4.0 | Filter & Statistik | Q4 2026 | 📋 Planned |
-| 0.5.0 | Export & Backup | Q4 2026 | 📋 Planned |
-| 1.0.0 | Authentication + Play Store | Q1 2027 | 📋 Planned |
+| 0.1.0 | Setup & Arsitektur | Juli 2026 | ✅ Done |
+| 0.2.0 | Core Features MVP (Fase 1) | Juli 2026 | ✅ Done |
+| 0.3.0 | Security (Fase 1.5) | Agustus 2026 | ✅ Done |
+| 0.4.0 | Filter, Statistik & UI Modernisasi (Fase 2) | Agustus 2026 | ✅ Done |
+| 0.5.0 | Export & Backup (Fase 3) | Q4 2026 | 📋 Planned |
+| 0.6.0 | Sinkronisasi Cloud Firebase | Q4 2026 | 📋 Planned |
+| 1.0.0 | Authentication + Play Store Release | Q1 2027 | 📋 Planned |
 | 1.1.0 | AI Features | Q2 2027 | 📋 Planned |
 
 ---
@@ -391,9 +452,9 @@ PATCH → Bug fix
 
 ### 10.3 Pre-Launch Checklist
 
-- [ ] ProGuard/R8 aktif di release build
+- [x] ProGuard/R8 aktif di release build
 - [ ] App Signing dengan upload key
-- [ ] Target SDK minimal API 26
+- [x] minSdk API 26 (Android 8.0)
 - [ ] Tidak ada API key hardcoded
 - [ ] Semua permission dijelaskan
 - [ ] Privacy Policy tersedia
@@ -406,11 +467,12 @@ PATCH → Bug fix
 
 | Risk | Probability | Impact | Mitigasi |
 |------|-------------|--------|----------|
-| SQLCipher compatibility issue | Medium | High | Testing di berbagai device |
+| SQLCipher compatibility issue | Low | High | Sudah diimplementasi & diuji — gunakan `SupportOpenHelperFactory` |
 | Play Store rejection | Low | High | Review policy sebelum submit |
-| Data loss saat migrasi DB | Medium | High | Migration strategy + backup |
-| Performance di device low-end | Medium | Medium | Profiling + optimization |
-| Security vulnerability | Low | Critical | Security audit sebelum release |
+| Data loss saat migrasi DB | Medium | High | Room migration strategy wajib diterapkan sebelum rilis publik |
+| Performance di device low-end | Medium | Medium | Profiling + optimasi lazy loading |
+| Security vulnerability | Low | Critical | Security audit sebelum release v1.0.0 |
+| Breaking change library Compose/Hilt | Medium | Medium | Pantau changelog & update secara berkala |
 
 ---
 
@@ -420,18 +482,23 @@ PATCH → Bug fix
 |------|----------|
 | Transaksi | Setiap pencatatan pemasukan atau pengeluaran |
 | Saldo | Total pemasukan dikurangi total pengeluaran |
-| Kategori | Klasifikasi transaksi (Makanan, Transport, dll) |
+| Kategori | Klasifikasi transaksi (Makanan, Transport, dll) — 12 kategori tersedia |
 | Metode Pembayaran | Cara pembayaran (Cash, Debit, Credit, E-Wallet) |
 | Onboarding | Proses pengenalan aplikasi untuk pengguna baru |
+| Skeleton Loader | Animasi shimmer pengganti loading spinner untuk UX yang lebih baik |
 | DAU | Daily Active Users — pengguna aktif harian |
 | OWASP | Open Web Application Security Project |
-| SQLCipher | Library enkripsi database SQLite |
-| Clean Architecture | Pola arsitektur dengan pemisahan layer yang jelas |
+| SQLCipher | Library enkripsi database SQLite dengan standar AES-256 |
+| Clean Architecture | Pola arsitektur dengan pemisahan layer: Presentation, Domain, Data |
+| Use Case | Kelas yang merepresentasikan satu unit logika bisnis di Domain Layer |
+| Flow | Kotlin Coroutines API untuk data stream reaktif (real-time update) |
+| KSP | Kotlin Symbol Processing — annotation processor modern pengganti KAPT |
 
 ---
 
 *Dokumen ini bersifat living document dan akan diupdate seiring perkembangan produk.*
 
 **Author:** Finance App Development Team
+**Last Revised:** Agustus 2026
 **Reviewer:** -
 **Approved by:** -

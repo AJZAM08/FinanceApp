@@ -3,12 +3,14 @@ package com.financeapp.presentation.screen.statistics
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -44,6 +46,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -55,6 +58,13 @@ import com.financeapp.presentation.component.MonthlyBarChart
 import com.financeapp.presentation.component.PieChart
 import com.financeapp.presentation.component.TransactionItemSkeleton
 import com.financeapp.presentation.component.toDisplay
+import com.financeapp.presentation.theme.ExpenseRed
+import com.financeapp.presentation.theme.IncomeGreen
+import com.financeapp.presentation.theme.Indigo500
+import com.financeapp.presentation.theme.Indigo700
+import com.financeapp.presentation.theme.Lavender50
+import com.financeapp.presentation.theme.TextOnDark
+import com.financeapp.presentation.theme.TextSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,181 +74,234 @@ fun StatisticsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Analisis Keuangan",
-                        fontWeight = FontWeight.Bold
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        // ── Header Indigo ────────────────────────────────────────
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.22f)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(Indigo700, Indigo500)
                     )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Kembali"
-                        )
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
-        if (uiState.isLoading) {
-            // Loading Shimmer State
-            LazyColumn(
+                )
+        )
+
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            // Header bar dengan judul
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 16.dp)
+                    .padding(top = 24.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                item {
-                    BalanceCardSkeleton()
+                IconButton(onClick = onNavigateBack) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Kembali",
+                        tint = TextOnDark
+                    )
                 }
-                items(3) {
-                    TransactionItemSkeleton()
-                }
+                Text(
+                    text = "Analisis Keuangan",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = TextOnDark,
+                    fontWeight = FontWeight.Bold
+                )
             }
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+
+            // Panel putih melengkung
+            Card(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+                colors = CardDefaults.cardColors(containerColor = Lavender50),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
             ) {
-                // ── Pemilih Periode ─────────────────────────
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    StatsPeriod.entries.forEach { period ->
-                        val isSelected = uiState.selectedPeriod == period
-                        val label = when (period) {
-                            StatsPeriod.THIS_MONTH -> "Bulan Ini"
-                            StatsPeriod.LAST_MONTH -> "Bulan Lalu"
-                            StatsPeriod.ALL_TIME -> "Semua"
-                        }
-                        FilterChip(
-                            selected = isSelected,
-                            onClick = { viewModel.onPeriodChange(period) },
-                            label = { Text(label) },
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                }
-
-                // ── Pemilih Tipe (Income/Expense) ────────────
-                TabRow(
-                    selectedTabIndex = if (uiState.selectedType == TransactionType.EXPENSE) 0 else 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                ) {
-                    Tab(
-                        selected = uiState.selectedType == TransactionType.EXPENSE,
-                        onClick = { viewModel.onTypeChange(TransactionType.EXPENSE) },
-                        text = { Text("Pengeluaran") }
-                    )
-                    Tab(
-                        selected = uiState.selectedType == TransactionType.INCOME,
-                        onClick = { viewModel.onTypeChange(TransactionType.INCOME) },
-                        text = { Text("Pemasukan") }
-                    )
-                }
-
-                // ── Grafik Pie (Donut Chart) Card ─────────────
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
+                if (uiState.isLoading) {
+                    // Loading Shimmer State
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(
-                            text = if (uiState.selectedType == TransactionType.EXPENSE)
-                                "Distribusi Pengeluaran"
-                            else
-                                "Distribusi Pemasukan",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        PieChart(
-                            statistics = uiState.categoryStats,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        item {
+                            BalanceCardSkeleton()
+                        }
+                        items(3) {
+                            TransactionItemSkeleton()
+                        }
                     }
-                }
-
-                // ── Info Perbandingan Card ───────────────────
-                AnimatedVisibility(visible = uiState.comparisonText.isNotEmpty()) {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
-                        )
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
+                        // ── Pemilih Periode ─────────────────────────
                         Row(
-                            modifier = Modifier.padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 20.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MaterialTheme.colorScheme.surfaceVariant),
                         ) {
-                            val isWorse = (uiState.comparisonText.contains("naik") && uiState.selectedType == TransactionType.EXPENSE)
-                            val isBetter = uiState.comparisonText.contains("hemat")
-                            val icon = when {
-                                isWorse -> Icons.AutoMirrored.Filled.TrendingUp
-                                isBetter -> Icons.AutoMirrored.Filled.TrendingDown
-                                else -> Icons.Default.Info
+                            StatsPeriod.entries.forEach { period ->
+                                val isSelected = uiState.selectedPeriod == period
+                                val label = when (period) {
+                                    StatsPeriod.THIS_MONTH -> "Bulan Ini"
+                                    StatsPeriod.LAST_MONTH -> "Bulan Lalu"
+                                    StatsPeriod.ALL_TIME -> "Semua"
+                                }
+                                Box(
+                                    Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(
+                                            if (isSelected) Indigo500 else Color.Transparent
+                                        )
+                                        .clickable {viewModel.onPeriodChange(period)}
+                                        .padding(vertical = 10.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        label,
+                                        style = MaterialTheme.typography.labelMedium,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        color = if (isSelected) TextOnDark else TextSecondary
+                                    )
+                                }
                             }
-                            val iconColor = when {
-                                isWorse -> Color(0xFFC62828)
-                                isBetter -> Color(0xFF2E7D32)
-                                else -> MaterialTheme.colorScheme.primary
+                        }
+
+                        // ── Pemilih Tipe (Income/Expense) ────────────
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MaterialTheme.colorScheme.surfaceVariant)
+                        ) {
+                            listOf(
+                                TransactionType.EXPENSE to "Pengeluaran",
+                                TransactionType.INCOME to "Pemasukan"
+                            ).forEach { (type, label) ->
+                                val isSelected = uiState.selectedType == type
+                                Box(
+                                    Modifier
+                                        .weight(1f)
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(if (isSelected) Indigo500 else Color.Transparent)
+                                        .clickable {viewModel.onTypeChange(type)}
+                                        .padding(vertical = 12.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        label,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                        color = if (isSelected) TextOnDark else TextSecondary
+                                    )
+                                }
                             }
-                            Box(
-                                modifier = Modifier
-                                    .size(40.dp)
-                                    .clip(CircleShape)
-                                    .background(iconColor.copy(alpha = 0.15f)),
-                                contentAlignment = Alignment.Center
+                        }
+
+                        // ── Grafik Pie (Donut Chart) Card ─────────────
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
                             ) {
-                                Icon(
-                                    imageVector = icon,
-                                    contentDescription = null,
-                                    tint = iconColor
+                                Text(
+                                    text = if (uiState.selectedType == TransactionType.EXPENSE)
+                                        "Distribusi Pengeluaran"
+                                    else
+                                        "Distribusi Pemasukan",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                PieChart(
+                                    statistics = uiState.categoryStats,
+                                    modifier = Modifier.fillMaxWidth()
                                 )
                             }
-                            Text(
-                                text = uiState.comparisonText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = FontWeight.Medium,
-                                modifier = Modifier.weight(1f)
-                            )
                         }
-                    }
-                }
 
-                // ── Tren Bulanan Card ─────────────────────────
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        Text(
-                            text = "Tren Bulanan",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        MonthlyBarChart(
-                            data = uiState.monthlyTrends,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        // ── Info Perbandingan Card ───────────────────
+                        AnimatedVisibility(visible = uiState.comparisonText.isNotEmpty()) {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                                )
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    val isWorse = (uiState.comparisonText.contains("naik") && uiState.selectedType == TransactionType.EXPENSE)
+                                    val isBetter = uiState.comparisonText.contains("hemat")
+                                    val icon = when {
+                                        isWorse -> Icons.AutoMirrored.Filled.TrendingUp
+                                        isBetter -> Icons.AutoMirrored.Filled.TrendingDown
+                                        else -> Icons.Default.Info
+                                    }
+                                    val iconColor = when {
+                                        isWorse -> ExpenseRed
+                                        isBetter -> IncomeGreen
+                                        else -> MaterialTheme.colorScheme.primary
+                                    }
+                                    Box(
+                                        modifier = Modifier
+                                            .size(40.dp)
+                                            .clip(CircleShape)
+                                            .background(iconColor.copy(alpha = 0.15f)),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = icon,
+                                            contentDescription = null,
+                                            tint = iconColor
+                                        )
+                                    }
+                                    Text(
+                                        text = uiState.comparisonText,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.Medium,
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                }
+                            }
+                        }
+
+                        // ── Tren Bulanan Card ─────────────────────────
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                Text(
+                                    text = "Tren Bulanan",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                MonthlyBarChart(
+                                    data = uiState.monthlyTrends,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        }
                     }
                 }
             }
