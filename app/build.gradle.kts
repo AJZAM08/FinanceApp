@@ -1,3 +1,12 @@
+import java.util.Properties
+
+// Baca local.properties secara manual
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -22,6 +31,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Baca API key dari local.properties
+        val geminiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
     }
 
     buildTypes {
@@ -41,6 +53,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     testOptions {
@@ -61,6 +74,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("com.google.accompanist:accompanist-permissions:0.37.3")
 
     // Compose BOM
     implementation(platform(libs.androidx.compose.bom))
@@ -99,6 +114,9 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp.logging)
+
+    // OCR & AI
+    implementation(libs.mlkit.text.recognition)
 
     // Testing
     testImplementation(libs.junit5.api)

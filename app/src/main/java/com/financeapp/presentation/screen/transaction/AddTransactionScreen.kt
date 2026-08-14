@@ -56,6 +56,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.financeapp.domain.model.PaymentMethod
+import com.financeapp.domain.model.TransactionCategory
 import com.financeapp.domain.model.TransactionType
 import com.financeapp.presentation.component.CategoryPickerBottomSheet
 import com.financeapp.presentation.component.PaymentMethodPicker
@@ -74,6 +75,9 @@ import java.time.format.DateTimeFormatter
 fun AddTransactionScreen(
     onNavigateBack: () -> Unit,
     transactionId: Long? = null,
+    prefillAmount: String = "",
+    prefillMerchant: String = "",
+    prefillCategory: TransactionCategory? = null,
     viewModel: TransactionViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -84,6 +88,13 @@ fun AddTransactionScreen(
 
     LaunchedEffect(transactionId) {
         transactionId?.let { viewModel.loadTransaction(it) }
+    }
+
+    // Terapkan data pre-fill dari hasil scan struk
+    LaunchedEffect(prefillAmount, prefillMerchant, prefillCategory) {
+        if (prefillAmount.isNotBlank()) viewModel.onAmountChange(prefillAmount)
+        if (prefillMerchant.isNotBlank()) viewModel.onTitleChange(prefillMerchant)
+        prefillCategory?.let { viewModel.onCategoryChange(it) }
     }
 
     LaunchedEffect(uiState.isSuccess) {
@@ -185,7 +196,7 @@ fun AddTransactionScreen(
                 .fillMaxWidth()
                 .weight(1f),
             shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-            colors = CardDefaults.cardColors(containerColor = Lavender50),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
             Column(

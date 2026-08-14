@@ -21,6 +21,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.financeapp.presentation.component.BottomNavBar
 import com.financeapp.presentation.component.bottomNavItems
+import com.financeapp.domain.model.TransactionCategory
+import com.financeapp.presentation.screen.scan.ScanReceiptScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -28,6 +30,7 @@ sealed class Screen(val route: String) {
     object Dashboard : Screen("dashboard")
     object AddTransaction : Screen("add_transaction")
     object TransactionList : Screen("transaction_list")
+    object ScanReceipt     : Screen("scan_receipt")
     object Statistics : Screen("statistics")
     object EditTransaction : Screen("edit_transaction/{transactionId}") {
         fun createRoute(id: Long) = "edit_transaction/$id"
@@ -97,22 +100,13 @@ fun FinanceNavGraph(
                 )
             }
 
-            composable(route = Screen.Dashboard.route) { _ ->
+            composable(route = Screen.Dashboard.route) {
                 DashboardScreen(
-                    onNavigateToAddTransaction = {
-                        navController.navigate(Screen.AddTransaction.route)
-                    },
-                    onNavigateToEditTransaction = { id ->
-                        navController.navigate(
-                            Screen.EditTransaction.createRoute(id)
-                        )
-                    },
-                    onNavigateToTransactionList = {
-                        navController.navigate(Screen.TransactionList.route)
-                    },
-                    onNavigateToStatistics = {
-                        navController.navigate(Screen.Statistics.route)
-                    }
+                    onNavigateToAddTransaction    = { navController.navigate(Screen.AddTransaction.route) },
+                    onNavigateToEditTransaction   = { id -> navController.navigate(Screen.EditTransaction.createRoute(id)) },
+                    onNavigateToTransactionList   = { navController.navigate(Screen.TransactionList.route) },
+                    onNavigateToStatistics        = { navController.navigate(Screen.Statistics.route) },
+                    onNavigateToScanReceipt       = { navController.navigate(Screen.ScanReceipt.route) }  // ← TAMBAH
                 )
             }
 
@@ -122,11 +116,28 @@ fun FinanceNavGraph(
                 )
             }
 
-            composable(route = Screen.AddTransaction.route) { _ ->
+            composable(
+                route = Screen.AddTransaction.route +
+                        "?amount={amount}&merchant={merchant}&category={category}",
+                arguments = listOf(
+                    navArgument("amount")   { defaultValue = ""; nullable = true },
+                    navArgument("merchant") { defaultValue = ""; nullable = true },
+                    navArgument("category") { defaultValue = ""; nullable = true }
+                )
+            ) { backStackEntry ->
+                val amount   = backStackEntry.arguments?.getString("amount") ?: ""
+                val merchant = backStackEntry.arguments?.getString("merchant") ?: ""
+                val category = backStackEntry.arguments?.getString("category")
+                    ?.let { runCatching { TransactionCategory.valueOf(it) }.getOrNull() }
+
                 AddTransactionScreen(
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack    = { navController.popBackStack() },
+                    prefillAmount     = amount,
+                    prefillMerchant   = merchant,
+                    prefillCategory   = category
                 )
             }
+
 
             composable(route = Screen.TransactionList.route) { _ ->
                 TransactionListScreen(
@@ -153,6 +164,20 @@ fun FinanceNavGraph(
                 AddTransactionScreen(
                     transactionId = transactionId,
                     onNavigateBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(route = Screen.ScanReceipt.route) {
+                ScanReceiptScreen(
+                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateToAddTransaction = { amount, merchant, category ->
+                        // Navigasi ke AddTransaction dengan data pre-filled
+                        // lewat route dengan argument
+                        navController.navigate(
+                            Screen.AddTransaction.route +
+                                    "?amount=$amount&merchant=$merchant&category=${category.name}"
+                        )
+                    }
                 )
             }
         }
