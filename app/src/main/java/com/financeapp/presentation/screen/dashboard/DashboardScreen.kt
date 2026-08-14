@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,14 +27,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +49,9 @@ import com.financeapp.presentation.theme.Indigo700
 import com.financeapp.presentation.theme.Lavender50
 import com.financeapp.presentation.theme.TextOnDark
 import com.financeapp.presentation.theme.TextSecondary
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.font.FontWeight
+import com.financeapp.presentation.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,9 +60,11 @@ fun DashboardScreen(
     onNavigateToEditTransaction: (Long) -> Unit,
     onNavigateToTransactionList: () -> Unit,
     onNavigateToStatistics: () -> Unit,
+    onNavigateToScanReceipt: () -> Unit,
     viewModel: DashboardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var isFabExpanded by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(uiState.errorMessage) {
@@ -121,7 +129,7 @@ fun DashboardScreen(
                     .weight(1f),
                 shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Lavender50
+                    containerColor = MaterialTheme.colorScheme.surface
                 ),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 0.dp
@@ -190,18 +198,91 @@ fun DashboardScreen(
             }
         }
 
-        FloatingActionButton(
-            onClick = onNavigateToAddTransaction,
+        // FAB expandable di pojok kanan bawah
+        Column(
             modifier = Modifier
-                .align(alignment = Alignment.BottomEnd)
+                .align(Alignment.BottomEnd)
                 .padding(24.dp),
-            containerColor = Indigo500,
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Tambah Transaksi",
-                tint = TextOnDark
-            )
+            // Sub-menu muncul saat FAB expand
+            if (isFabExpanded) {
+
+                // Tombol Scan Struk
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(containerColor = White)
+                    ) {
+                        Text(
+                            text = "Scan Struk",
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                    SmallFloatingActionButton(
+                        onClick = {
+                            isFabExpanded = false
+                            onNavigateToScanReceipt()
+                        },
+                        containerColor = Indigo500
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DocumentScanner,
+                            contentDescription = "Scan Struk",
+                            tint = TextOnDark
+                        )
+                    }
+                }
+
+                // Tombol Tambah Manual
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Card(
+                        shape = RoundedCornerShape(8.dp),
+                        colors = CardDefaults.cardColors(containerColor = White)
+                    ) {
+                        Text(
+                            text = "Tambah Manual",
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                    SmallFloatingActionButton(
+                        onClick = {
+                            isFabExpanded = false
+                            onNavigateToAddTransaction()
+                        },
+                        containerColor = Indigo500
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Tambah Transaksi",
+                            tint = TextOnDark
+                        )
+                    }
+                }
+            }
+
+            // FAB utama — tap untuk expand/collapse
+            FloatingActionButton(
+                onClick = { isFabExpanded = !isFabExpanded },
+                containerColor = Indigo500
+            ) {
+                Icon(
+                    imageVector = if (isFabExpanded) Icons.Default.Close else Icons.Default.Add,
+                    contentDescription = "Menu",
+                    tint = TextOnDark
+                )
+            }
         }
 
         SnackbarHost(
