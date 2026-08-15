@@ -50,9 +50,10 @@ fun BalanceCard(
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextOnDark.copy(alpha = 0.75f)
             )
-            Text(
-                text = "Rp. ${String.format("%,.0f", balanceInfo.balance.toDouble())}",
-                fontSize = 32.sp,
+            AnimatedCurrencyText(
+                amount = balanceInfo.balance.toDouble(),
+                prefix = "Rp ",
+                textStyle = MaterialTheme.typography.headlineMedium.copy(fontSize = 32.sp),
                 fontWeight = FontWeight.Bold,
                 color = TextOnDark
             )
@@ -103,9 +104,10 @@ fun BalanceCard(
                         style = MaterialTheme.typography.labelMedium,
                         color = TextOnDark.copy(alpha = 0.7f)
                     )
-                    Text(
-                        text = "Rp ${String.format("%,.0f", balanceInfo.totalIncome.toDouble())}",
-                        style = MaterialTheme.typography.bodyMedium,
+                    AnimatedCurrencyText(
+                        amount = balanceInfo.totalIncome.toDouble(),
+                        prefix = "Rp ",
+                        textStyle = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
                         color = IncomeGreenLight
                     )
@@ -151,9 +153,10 @@ fun BalanceCard(
                         style = MaterialTheme.typography.labelMedium,
                         color = TextOnDark.copy(alpha = 0.7f)
                     )
-                    Text(
-                        text = "Rp ${String.format("%,.0f", balanceInfo.totalExpense.toDouble())}",
-                        style = MaterialTheme.typography.bodyMedium,
+                    AnimatedCurrencyText(
+                        amount = balanceInfo.totalExpense.toDouble(),
+                        prefix = "Rp ",
+                        textStyle = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Bold,
                         color = ExpenseRedLight
                     )
