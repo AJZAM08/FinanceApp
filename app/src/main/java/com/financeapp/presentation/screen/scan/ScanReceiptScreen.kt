@@ -308,7 +308,13 @@ private fun PhaseReview(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             prefix = { Text("Rp ") },
             singleLine = true,
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(16.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                focusedLabelColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.primary
+            )
         )
 
         // Field Nama Toko
@@ -318,7 +324,13 @@ private fun PhaseReview(
             label = { Text("Nama Toko / Merchant") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(16.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                focusedLabelColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.primary
+            )
         )
 
         // Info kategori yang terdeteksi

@@ -1,6 +1,9 @@
 package com.financeapp.presentation.component
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -38,11 +41,13 @@ fun PieChart(
     statistics: List<CategoryStatistics>,
     modifier: Modifier = Modifier
 ) {
+    // Animasi putaran sudut Donut Chart (0f -> 1f)
     val transitionProgress = remember { Animatable(0f) }
     LaunchedEffect(statistics) {
+        transitionProgress.snapTo(0f)
         transitionProgress.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 1000)
+            animationSpec = tween(durationMillis = 850, easing = FastOutSlowInEasing)
         )
     }
 
@@ -54,8 +59,7 @@ fun PieChart(
         // Pie Canvas (Donut Chart)
         Box(
             modifier = Modifier
-                .size(150.dp)
-                .weight(1f),
+                .size(150.dp),
             contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
@@ -74,7 +78,7 @@ fun PieChart(
                 }
             }
 
-            // Teks Tengah
+            // Teks Tengah dengan AnimatedCurrencyText
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "Total",
@@ -82,11 +86,12 @@ fun PieChart(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 val totalExpense = statistics.sumOf { it.total }
-                Text(
-                    text = "Rp ${String.format("%,.0f", totalExpense.toDouble())}",
-                    style = MaterialTheme.typography.bodyMedium,
+                AnimatedCurrencyText(
+                    amount = totalExpense.toDouble(),
+                    prefix = "Rp ",
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -144,11 +149,16 @@ fun MonthlyBarChart(
     if (data.isEmpty()) return
     val maxVal = data.values.maxOrNull()?.coerceAtLeast(1L) ?: 1L
 
+    // Animasi Spring Bouncy untuk pertumbuhan batang grafik
     val transitionProgress = remember { Animatable(0f) }
     LaunchedEffect(data) {
+        transitionProgress.snapTo(0f)
         transitionProgress.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 1000)
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            )
         )
     }
 
@@ -176,7 +186,7 @@ fun MonthlyBarChart(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.35f)
-                        .fillMaxHeight(barHeightRatio.coerceAtLeast(0.05f))
+                        .fillMaxHeight(barHeightRatio.coerceIn(0.04f, 1f))
                         .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
                         .background(
                             Brush.verticalGradient(

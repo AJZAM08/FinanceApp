@@ -344,7 +344,7 @@ fun TransactionListScreen(
                                     TransactionCard(
                                         transaction = transaction,
                                         onClick = { onNavigateToEditTransaction(transaction.id) },
-                                        modifier = Modifier.fillMaxWidth()
+                                        modifier = Modifier.fillMaxWidth().animateItem()
                                     )
                                 }
                             }

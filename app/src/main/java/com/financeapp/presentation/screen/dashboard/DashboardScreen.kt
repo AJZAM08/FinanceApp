@@ -1,5 +1,13 @@
 package com.financeapp.presentation.screen.dashboard
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,7 +24,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Card
@@ -46,12 +53,12 @@ import com.financeapp.presentation.component.BalanceCard
 import com.financeapp.presentation.component.TransactionCard
 import com.financeapp.presentation.theme.Indigo500
 import com.financeapp.presentation.theme.Indigo700
-import com.financeapp.presentation.theme.Lavender50
 import com.financeapp.presentation.theme.TextOnDark
 import com.financeapp.presentation.theme.TextSecondary
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
-import com.financeapp.presentation.theme.White
+import com.financeapp.presentation.component.bounceClick
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -185,10 +192,14 @@ fun DashboardScreen(
                                     }
                                 }
                             } else {
-                                items(uiState.recentTransactions) { transaction ->
+                                items(
+                                    uiState.recentTransactions,
+                                    key = {it.id}
+                                ) { transaction ->
                                     TransactionCard(
                                         transaction = transaction,
-                                        onClick = { onNavigateToEditTransaction(transaction.id) }
+                                        onClick = { onNavigateToEditTransaction(transaction.id) },
+                                        modifier = Modifier.animateItem()
                                     )
                                 }
                             }
@@ -199,6 +210,15 @@ fun DashboardScreen(
         }
 
         // FAB expandable di pojok kanan bawah
+        val fabRotation by animateFloatAsState(
+            targetValue = if (isFabExpanded) 135f else 0f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "fabRotation"
+        )
+
         Column(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
@@ -206,81 +226,96 @@ fun DashboardScreen(
             horizontalAlignment = Alignment.End,
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Sub-menu muncul saat FAB expand
-            if (isFabExpanded) {
-
-                // Tombol Scan Struk
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+            // Sub-menu hanya muncul jika isFabExpanded == true
+            AnimatedVisibility(
+                visible = isFabExpanded,
+                enter = fadeIn() + slideInVertically { it / 2 },
+                exit = fadeOut() + slideOutVertically { it / 2 }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Card(
-                        shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = White)
-                    ) {
-                        Text(
-                            text = "Scan Struk",
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                    SmallFloatingActionButton(
-                        onClick = {
+                    // Tombol 1: Scan Struk
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.bounceClick {
                             isFabExpanded = false
                             onNavigateToScanReceipt()
-                        },
-                        containerColor = Indigo500
+                        }
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.DocumentScanner,
-                            contentDescription = "Scan Struk",
-                            tint = TextOnDark
-                        )
+                        Card(
+                            shape = RoundedCornerShape(8.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        ) {
+                            Text(
+                                text = "Scan Struk",
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        SmallFloatingActionButton(
+                            onClick = {
+                                isFabExpanded = false
+                                onNavigateToScanReceipt()
+                            },
+                            containerColor = Indigo500
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.DocumentScanner,
+                                contentDescription = "Scan Struk",
+                                tint = TextOnDark
+                            )
+                        }
                     }
-                }
 
-                // Tombol Tambah Manual
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Card(
-                        shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = White)
-                    ) {
-                        Text(
-                            text = "Tambah Manual",
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                    SmallFloatingActionButton(
-                        onClick = {
+                    // Tombol 2: Tambah Manual
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.bounceClick {
                             isFabExpanded = false
                             onNavigateToAddTransaction()
-                        },
-                        containerColor = Indigo500
+                        }
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Tambah Transaksi",
-                            tint = TextOnDark
-                        )
+                        Card(
+                            shape = RoundedCornerShape(8.dp),
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+                        ) {
+                            Text(
+                                text = "Tambah Manual",
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        SmallFloatingActionButton(
+                            onClick = {
+                                isFabExpanded = false
+                                onNavigateToAddTransaction()
+                            },
+                            containerColor = Indigo500
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Tambah Transaksi",
+                                tint = TextOnDark
+                            )
+                        }
                     }
                 }
             }
-
-            // FAB utama — tap untuk expand/collapse
             FloatingActionButton(
                 onClick = { isFabExpanded = !isFabExpanded },
                 containerColor = Indigo500
             ) {
                 Icon(
-                    imageVector = if (isFabExpanded) Icons.Default.Close else Icons.Default.Add,
+                    imageVector = Icons.Default.Add,
                     contentDescription = "Menu",
-                    tint = TextOnDark
+                    tint = TextOnDark,
+                    modifier = Modifier.rotate(fabRotation)
                 )
             }
         }
