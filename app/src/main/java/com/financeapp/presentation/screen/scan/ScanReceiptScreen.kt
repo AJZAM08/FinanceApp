@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -37,7 +36,27 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import android.Manifest
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.filled.ReceiptLong
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -48,17 +67,13 @@ fun ScanReceiptScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-
-    // ── Permission Kamera ─────────────────────────────────────────
     val cameraPermission = rememberPermissionState(Manifest.permission.CAMERA)
-    // ── Launcher Kamera ───────────────────────────────────────────
     var cameraImageUri by remember { mutableStateOf<Uri?>(null) }
     val cameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { success ->
         if (success) cameraImageUri?.let { viewModel.onImageSelected(it) }
     }
-    // Fungsi buka kamera dengan cek permission
     val context = LocalContext.current
     val openCamera = {
         if (cameraPermission.status.isGranted) {
@@ -74,11 +89,58 @@ fun ScanReceiptScreen(
     }
 
     // ── Error handling ────────────────────────────────────────────
-    LaunchedEffect(uiState.errorMessage) {
-        uiState.errorMessage?.let {
-            snackbarHostState.showSnackbar(it)
-            viewModel.clearError()
-        }
+    if (uiState.errorMessage != null) {
+        AlertDialog(
+            onDismissRequest = { viewModel.clearError() },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.ErrorOutline,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(36.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = "Gagal Memproses Struk",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
+            },
+            text = {
+                Text(
+                    text = uiState.errorMessage ?: "Terjadi kesalahan saat proses gambar struk. pastikan foto struk terlihat jelas dan pencahayaan cukup.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        viewModel.clearError()
+                        viewModel.reset()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Indigo500),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("Coba Lagi", color = TextOnDark)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.clearError()
+                        onNavigateToAddTransaction("", "", TransactionCategory.OTHER)
+                    }
+                ) {
+                    Text("Input Manual", color = Indigo500)
+                }
+            },
+            shape = RoundedCornerShape(20.dp),
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     }
 
     // ── Launcher: Galeri (Photo Picker) ──────────────────────────
@@ -150,10 +212,7 @@ fun ScanReceiptScreen(
 
                     // ── Fase 2: Loading ───────────────────────────
                     isLoading -> {
-                        PhaseLoading(
-                            statusText = if (uiState.isOcrLoading)
-                                "Membaca teks dari struk..." else "Menganalisis dengan AI..."
-                        )
+                        PhaseLoading(isOcrPhase = uiState.isOcrLoading)
                     }
 
                     // ── Fase 3: Review Hasil ──────────────────────
@@ -246,20 +305,113 @@ private fun PhasePickImage(
 
 // ── Composable: Fase Loading ──────────────────────────────────────
 @Composable
-private fun PhaseLoading(statusText: String) {
+private fun PhaseLoading(isOcrPhase: Boolean) {
+    val statusMessage = remember(isOcrPhase) {
+        if (isOcrPhase) {
+            listOf(
+                "Membaca teks dari struk...",
+                "Mendeteksi tulisan & angka..."
+            )
+        } else {
+            listOf(
+                "Menganalisis struk dengan Gemini AI...",
+                "Mendeteksi nama toko & total belanja...",
+                "Mengkategorikan transaksi secara cerdas...",
+                "Menyiapkan formulir transaksi..."
+            )
+        }
+    }
+    var currentMessageIndex by remember { mutableStateOf(0) }
+    LaunchedEffect(statusMessage) {
+        currentMessageIndex = 0
+        while (true) {
+            delay(2200)
+            if (currentMessageIndex < statusMessage.size - 1) {
+                currentMessageIndex++
+            }
+        }
+    }
+    val infiniteTransition = rememberInfiniteTransition(label = "pulseTransition")
+    val pulseScale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.35f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulseScale"
+    )
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.6f,
+        targetValue = 0.1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulseAlpha"
+    )
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        CircularProgressIndicator(color = Indigo500, strokeWidth = 3.dp)
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            text = statusText,
-            style = MaterialTheme.typography.bodyLarge,
-            color = TextSecondary,
-            textAlign = TextAlign.Center
-        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.size(140.dp)
+        ) {
+            Box(
+                Modifier
+                    .size(110.dp)
+                    .scale(pulseScale)
+                    .clip(CircleShape)
+                    .background(Indigo500.copy(alpha = pulseAlpha))
+            )
+            Box(
+                Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+                    .background(Indigo500),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = if (isOcrPhase) Icons.Default.ReceiptLong else Icons.Default.AutoAwesome,
+                    contentDescription = null,
+                    tint = TextOnDark,
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+            Spacer(Modifier.height(32.dp))
+            CircularProgressIndicator(
+                Modifier.size(28.dp),
+                color = Indigo500,
+                strokeWidth = 3.dp
+            )
+            Spacer(Modifier.height(20.dp))
+            AnimatedContent(
+                targetState = statusMessage[currentMessageIndex],
+                transitionSpec = {
+                    slideInVertically { height -> height / 2 } + fadeIn() togetherWith slideOutVertically { height -> -height / 2 } + fadeOut()
+                },
+                label = "statusMessageAnimation"
+            ) { text ->
+                Text(
+                    text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Center
+                )
+            }
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "Proses ini membutuhkan waktu beberapa detik",
+                style = MaterialTheme.typography.labelSmall,
+                color = TextSecondary,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
