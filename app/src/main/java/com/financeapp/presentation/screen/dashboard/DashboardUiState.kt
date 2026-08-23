@@ -13,5 +13,9 @@ data class DashboardUiState(
     ),
     val categoryStatistics: List<CategoryStatistics> = emptyList(),
     val recentTransactions: List<Transaction> = emptyList(),
+    val isBalanceHidden: Boolean = false,
+    val isReminderEnabled: Boolean = false,
+    val reminderHour: Int = 20,
+    val reminderMinute: Int = 0,
     val errorMessage: String? = null
 )

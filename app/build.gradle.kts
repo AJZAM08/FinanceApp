@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Compose BOM
     implementation(platform(libs.androidx.compose.bom))
