@@ -382,36 +382,36 @@ private fun PhaseLoading(isOcrPhase: Boolean) {
                     modifier = Modifier.size(36.dp)
                 )
             }
-            Spacer(Modifier.height(32.dp))
-            CircularProgressIndicator(
-                Modifier.size(28.dp),
-                color = Indigo500,
-                strokeWidth = 3.dp
-            )
-            Spacer(Modifier.height(20.dp))
-            AnimatedContent(
-                targetState = statusMessage[currentMessageIndex],
-                transitionSpec = {
-                    slideInVertically { height -> height / 2 } + fadeIn() togetherWith slideOutVertically { height -> -height / 2 } + fadeOut()
-                },
-                label = "statusMessageAnimation"
-            ) { text ->
-                Text(
-                    text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center
-                )
-            }
-            Spacer(Modifier.height(8.dp))
+        }
+        Spacer(Modifier.height(32.dp))
+        CircularProgressIndicator(
+            Modifier.size(28.dp),
+            color = Indigo500,
+            strokeWidth = 3.dp
+        )
+        Spacer(Modifier.height(20.dp))
+        AnimatedContent(
+            targetState = statusMessage[currentMessageIndex],
+            transitionSpec = {
+                slideInVertically { height -> height / 2 } + fadeIn() togetherWith slideOutVertically { height -> -height / 2 } + fadeOut()
+            },
+            label = "statusMessageAnimation"
+        ) { text ->
             Text(
-                "Proses ini membutuhkan waktu beberapa detik",
-                style = MaterialTheme.typography.labelSmall,
-                color = TextSecondary,
+                text,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
             )
         }
+        Spacer(Modifier.height(8.dp))
+        Text(
+            "Proses ini membutuhkan waktu beberapa detik",
+            style = MaterialTheme.typography.labelSmall,
+            color = TextSecondary,
+            textAlign = TextAlign.Center
+        )
     }
 }
 

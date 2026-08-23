@@ -1,0 +1,476 @@
+{
+  "app/build.gradle.kts": {
+    "mtime": 1786710597.4703126,
+    "seen": 1787234795.6221707,
+    "ast_hash": "08b0d0967e2086c2ffea296e5d6f67d5",
+    "semantic_hash": "08b0d0967e2086c2ffea296e5d6f67d5"
+  },
+  "app/schemas/com.financeapp.data.local.database.FinanceDatabase/1.json": {
+    "mtime": 1784374862.579005,
+    "seen": 1787234795.6221757,
+    "ast_hash": "aad9751a87d4f4098daf24ecd23c6927",
+    "semantic_hash": "aad9751a87d4f4098daf24ecd23c6927"
+  },
+  "app/src/androidTest/java/com/financeapp/ExampleInstrumentedTest.kt": {
+    "mtime": 1783164164.817005,
+    "seen": 1787234795.6221778,
+    "ast_hash": "9ca884918c5d08ec8b276dd3ed9788ba",
+    "semantic_hash": "9ca884918c5d08ec8b276dd3ed9788ba"
+  },
+  "app/src/main/java/com/financeapp/FinanceApplication.kt": {
+    "mtime": 1786198695.8539276,
+    "seen": 1787234795.622179,
+    "ast_hash": "7d5cfb6cc2f2713ba58bcac1182b9aa4",
+    "semantic_hash": "7d5cfb6cc2f2713ba58bcac1182b9aa4"
+  },
+  "app/src/main/java/com/financeapp/MainActivity.kt": {
+    "mtime": 1786011492.6353474,
+    "seen": 1787234795.62218,
+    "ast_hash": "2aabbe2140e389482da1ce60cda85c75",
+    "semantic_hash": "2aabbe2140e389482da1ce60cda85c75"
+  },
+  "app/src/main/java/com/financeapp/core/datastore/UserPreferences.kt": {
+    "mtime": 1784725201.8428164,
+    "seen": 1787234795.6221812,
+    "ast_hash": "f797ccbe13ae09d2293652819fc63c9b",
+    "semantic_hash": "f797ccbe13ae09d2293652819fc63c9b"
+  },
+  "app/src/main/java/com/financeapp/core/security/DatabasePassphrase.kt": {
+    "mtime": 1786011492.6368885,
+    "seen": 1787234795.6221824,
+    "ast_hash": "762cbba5707cf24fbe77aed20fa27ab5",
+    "semantic_hash": "762cbba5707cf24fbe77aed20fa27ab5"
+  },
+  "app/src/main/java/com/financeapp/core/security/RootDetection.kt": {
+    "mtime": 1786011492.6376383,
+    "seen": 1787234795.622183,
+    "ast_hash": "937800b4f6b42e5c4f48868782417b0d",
+    "semantic_hash": "937800b4f6b42e5c4f48868782417b0d"
+  },
+  "app/src/main/java/com/financeapp/core/security/SecurityCheck.kt": {
+    "mtime": 1786011492.6391037,
+    "seen": 1787234795.6221843,
+    "ast_hash": "6b9bf5a005bf35b4afa1b4b31d4b6c66",
+    "semantic_hash": "6b9bf5a005bf35b4afa1b4b31d4b6c66"
+  },
+  "app/src/main/java/com/financeapp/data/local/dao/TransactionDao.kt": {
+    "mtime": 1784374862.5810149,
+    "seen": 1787234795.622185,
+    "ast_hash": "27536f4887aba69db3d4aa884bc29405",
+    "semantic_hash": "27536f4887aba69db3d4aa884bc29405"
+  },
+  "app/src/main/java/com/financeapp/data/local/database/DateConverter.kt": {
+    "mtime": 1784190461.6043437,
+    "seen": 1787234795.6221857,
+    "ast_hash": "dbb7778cb0dbcb008cff450f95d78a99",
+    "semantic_hash": "dbb7778cb0dbcb008cff450f95d78a99"
+  },
+  "app/src/main/java/com/financeapp/data/local/database/FinanceDatabase.kt": {
+    "mtime": 1786011492.6398554,
+    "seen": 1787234795.6221867,
+    "ast_hash": "3616d16608d675ef9c98602a297278ac",
+    "semantic_hash": "3616d16608d675ef9c98602a297278ac"
+  },
+  "app/src/main/java/com/financeapp/data/local/entity/CategoryTotal.kt": {
+    "mtime": 1784374862.5820155,
+    "seen": 1787234795.6221876,
+    "ast_hash": "92ab13bfb4d36c39e9136e348ec5b84e",
+    "semantic_hash": "92ab13bfb4d36c39e9136e348ec5b84e"
+  },
+  "app/src/main/java/com/financeapp/data/local/entity/TransactionEntity.kt": {
+    "mtime": 1784190461.6053443,
+    "seen": 1787234795.6221883,
+    "ast_hash": "d44053adfef0e92b5c34dabec1239cdf",
+    "semantic_hash": "d44053adfef0e92b5c34dabec1239cdf"
+  },
+  "app/src/main/java/com/financeapp/data/local/entity/TransactionMapper.kt": {
+    "mtime": 1784190461.606353,
+    "seen": 1787234795.6221893,
+    "ast_hash": "dc2117d9c0afe7d7dde6c248cf7e3b13",
+    "semantic_hash": "dc2117d9c0afe7d7dde6c248cf7e3b13"
+  },
+  "app/src/main/java/com/financeapp/data/remote/GeminiApiService.kt": {
+    "mtime": 1786710597.4728186,
+    "seen": 1787234795.6221902,
+    "ast_hash": "3af7fe136a1b168c7f0998d6f6268dc1",
+    "semantic_hash": "3af7fe136a1b168c7f0998d6f6268dc1"
+  },
+  "app/src/main/java/com/financeapp/data/repository/TransactionRepositoryImpl.kt": {
+    "mtime": 1786011492.6408606,
+    "seen": 1787234795.6221912,
+    "ast_hash": "32558dd1578aec33e7a02f7e2b7431ba",
+    "semantic_hash": "32558dd1578aec33e7a02f7e2b7431ba"
+  },
+  "app/src/main/java/com/financeapp/data/service/GeminiReceiptParser.kt": {
+    "mtime": 1786710597.473575,
+    "seen": 1787234795.6221921,
+    "ast_hash": "4963cbbfa91607036f28fc36ed13f31b",
+    "semantic_hash": "4963cbbfa91607036f28fc36ed13f31b"
+  },
+  "app/src/main/java/com/financeapp/data/service/MlKitOcrService.kt": {
+    "mtime": 1786710597.474324,
+    "seen": 1787234795.6221929,
+    "ast_hash": "a86c44b158f8eac8a0ecd11654e33b17",
+    "semantic_hash": "a86c44b158f8eac8a0ecd11654e33b17"
+  },
+  "app/src/main/java/com/financeapp/di/DataStoreModule.kt": {
+    "mtime": 1784725201.8438165,
+    "seen": 1787234795.6221936,
+    "ast_hash": "94407ab94fd97fcbe95023d1c3841202",
+    "semantic_hash": "94407ab94fd97fcbe95023d1c3841202"
+  },
+  "app/src/main/java/com/financeapp/di/DatabaseModule.kt": {
+    "mtime": 1786198695.8554268,
+    "seen": 1787234795.6221945,
+    "ast_hash": "897901b06a389299ec4a03c46a213823",
+    "semantic_hash": "897901b06a389299ec4a03c46a213823"
+  },
+  "app/src/main/java/com/financeapp/di/OcrModule.kt": {
+    "mtime": 1786710597.475075,
+    "seen": 1787234795.6221955,
+    "ast_hash": "9221682bea32a1cc4a8a6f433249d769",
+    "semantic_hash": "9221682bea32a1cc4a8a6f433249d769"
+  },
+  "app/src/main/java/com/financeapp/di/RepositoryModule.kt": {
+    "mtime": 1786011492.6431165,
+    "seen": 1787234795.622197,
+    "ast_hash": "5a8e0f848bb102ac469e98cf69a99ebe",
+    "semantic_hash": "5a8e0f848bb102ac469e98cf69a99ebe"
+  },
+  "app/src/main/java/com/financeapp/di/SecurityModule.kt": {
+    "mtime": 1786011492.6431165,
+    "seen": 1787234795.6221979,
+    "ast_hash": "616eeb69ae7e830a8dfc7f25fcd91b27",
+    "semantic_hash": "616eeb69ae7e830a8dfc7f25fcd91b27"
+  },
+  "app/src/main/java/com/financeapp/domain/model/ReceiptData.kt": {
+    "mtime": 1786710597.4758248,
+    "seen": 1787234795.6221986,
+    "ast_hash": "0001a5e2c35d6cbfbe43cc2f3cc8c67d",
+    "semantic_hash": "0001a5e2c35d6cbfbe43cc2f3cc8c67d"
+  },
+  "app/src/main/java/com/financeapp/domain/model/Transaction.kt": {
+    "mtime": 1784190461.6074717,
+    "seen": 1787234795.6221993,
+    "ast_hash": "d719e132a26768f08d33d4821fbf0c03",
+    "semantic_hash": "d719e132a26768f08d33d4821fbf0c03"
+  },
+  "app/src/main/java/com/financeapp/domain/repository/OcrRepository.kt": {
+    "mtime": 1786710597.4765747,
+    "seen": 1787234795.6222003,
+    "ast_hash": "325429203b481311d4f2dc5eced59446",
+    "semantic_hash": "325429203b481311d4f2dc5eced59446"
+  },
+  "app/src/main/java/com/financeapp/domain/repository/ReceiptParserRepository.kt": {
+    "mtime": 1786710597.4773233,
+    "seen": 1787234795.6222012,
+    "ast_hash": "c2b54524b5b52d8c33e6a6b13861b8b6",
+    "semantic_hash": "c2b54524b5b52d8c33e6a6b13861b8b6"
+  },
+  "app/src/main/java/com/financeapp/domain/repository/TransactionRepository.kt": {
+    "mtime": 1784378966.1392353,
+    "seen": 1787234795.6222022,
+    "ast_hash": "02e8fbda930a254bbc18db0fbc585c67",
+    "semantic_hash": "02e8fbda930a254bbc18db0fbc585c67"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/AddTransactionUseCase.kt": {
+    "mtime": 1784480134.532982,
+    "seen": 1787234795.6222029,
+    "ast_hash": "b75b00078ba6ad3e2ce1b1900db451de",
+    "semantic_hash": "b75b00078ba6ad3e2ce1b1900db451de"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/DeleteTransactionUseCase.kt": {
+    "mtime": 1784480134.532982,
+    "seen": 1787234795.6222038,
+    "ast_hash": "cfe02263764e129d7d0d04237f1ce22a",
+    "semantic_hash": "cfe02263764e129d7d0d04237f1ce22a"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/GetAllTransactionsUseCase.kt": {
+    "mtime": 1786198695.8576777,
+    "seen": 1787234795.6222048,
+    "ast_hash": "a65d96f96c51a8e96f9b8d1409264599",
+    "semantic_hash": "a65d96f96c51a8e96f9b8d1409264599"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/GetBalanceUseCase.kt": {
+    "mtime": 1784480134.5347598,
+    "seen": 1787234795.6222055,
+    "ast_hash": "bc0235c01b8b893d6cbbaf30d6f8c46b",
+    "semantic_hash": "bc0235c01b8b893d6cbbaf30d6f8c46b"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/GetCategoryStatisticsUseCase.kt": {
+    "mtime": 1784480134.5367763,
+    "seen": 1787234795.6222062,
+    "ast_hash": "abde2793fdd7f26cb70970932c6afe11",
+    "semantic_hash": "abde2793fdd7f26cb70970932c6afe11"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/GetTransactionByIdUseCase.kt": {
+    "mtime": 1786198695.859177,
+    "seen": 1787234795.6222072,
+    "ast_hash": "2589054ab6861000c98bc5ccdf6b0be3",
+    "semantic_hash": "2589054ab6861000c98bc5ccdf6b0be3"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/ScanReceiptUseCase.kt": {
+    "mtime": 1786710597.4780736,
+    "seen": 1787234795.622208,
+    "ast_hash": "5bdc321ba79e2d6e0b4733d071c6a137",
+    "semantic_hash": "5bdc321ba79e2d6e0b4733d071c6a137"
+  },
+  "app/src/main/java/com/financeapp/domain/usecase/UpdateTransactionUseCase.kt": {
+    "mtime": 1784480134.5387669,
+    "seen": 1787234795.6222093,
+    "ast_hash": "d0c5e5d6695c003d8451a5e69ba66f14",
+    "semantic_hash": "d0c5e5d6695c003d8451a5e69ba66f14"
+  },
+  "app/src/main/java/com/financeapp/navigation/NavGraph.kt": {
+    "mtime": 1786790825.698016,
+    "seen": 1787234795.6222103,
+    "ast_hash": "c1b435afe359a94c9ec4e5ef9c38177b",
+    "semantic_hash": "c1b435afe359a94c9ec4e5ef9c38177b"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/AnimatedCounter.kt": {
+    "mtime": 1786790825.6990187,
+    "seen": 1787234795.622211,
+    "ast_hash": "7a3c912b3f732455d8060a799c462213",
+    "semantic_hash": "7a3c912b3f732455d8060a799c462213"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/BalanceCard.kt": {
+    "mtime": 1786790825.7000194,
+    "seen": 1787234795.6222122,
+    "ast_hash": "fdc04f2387be88a68761f22533c1f05b",
+    "semantic_hash": "fdc04f2387be88a68761f22533c1f05b"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/BottomNavBar.kt": {
+    "mtime": 1786369997.529217,
+    "seen": 1787234795.6222131,
+    "ast_hash": "b2180ec1d8e269deac1392ff378495d3",
+    "semantic_hash": "b2180ec1d8e269deac1392ff378495d3"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/CategoryIcon.kt": {
+    "mtime": 1784704465.478205,
+    "seen": 1787234795.6222138,
+    "ast_hash": "ab3613171c923dcf8de48ccd2f601db8",
+    "semantic_hash": "ab3613171c923dcf8de48ccd2f601db8"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/CategoryPickerBottomSheet.kt": {
+    "mtime": 1784704465.47921,
+    "seen": 1787234795.6222146,
+    "ast_hash": "0beaa9fe64299ae373145cf9293a850b",
+    "semantic_hash": "0beaa9fe64299ae373145cf9293a850b"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/CustomCharts.kt": {
+    "mtime": 1786790825.701017,
+    "seen": 1787234795.622216,
+    "ast_hash": "dab6828771a7392b09c69f038ef50473",
+    "semantic_hash": "dab6828771a7392b09c69f038ef50473"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/ModifierExtensions.kt": {
+    "mtime": 1786790825.7020178,
+    "seen": 1787234795.622217,
+    "ast_hash": "f298201581c013f662b03549541fbe8c",
+    "semantic_hash": "f298201581c013f662b03549541fbe8c"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/PaymentMethodPicker.kt": {
+    "mtime": 1784704465.4802094,
+    "seen": 1787234795.6222177,
+    "ast_hash": "5c699cd7d94e3d1aa75a7670223ff936",
+    "semantic_hash": "5c699cd7d94e3d1aa75a7670223ff936"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/SkeletonLoader.kt": {
+    "mtime": 1786198695.8647013,
+    "seen": 1787234795.6222186,
+    "ast_hash": "b52229c3a99077eb03fcf92c9811d534",
+    "semantic_hash": "b52229c3a99077eb03fcf92c9811d534"
+  },
+  "app/src/main/java/com/financeapp/presentation/component/TransactionCard.kt": {
+    "mtime": 1786790825.7030172,
+    "seen": 1787234795.6222193,
+    "ast_hash": "3df55a20f425133ce333cacf03d7f487",
+    "semantic_hash": "3df55a20f425133ce333cacf03d7f487"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/dashboard/DashboardScreen.kt": {
+    "mtime": 1786800837.7983065,
+    "seen": 1787234795.6222203,
+    "ast_hash": "313c2b82d3e719c1c35faaf7875d119b",
+    "semantic_hash": "313c2b82d3e719c1c35faaf7875d119b"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/dashboard/DashboardUiState.kt": {
+    "mtime": 1784537663.3807368,
+    "seen": 1787234795.622221,
+    "ast_hash": "5b6d04988c5a55e8ee6b16a29507640e",
+    "semantic_hash": "5b6d04988c5a55e8ee6b16a29507640e"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/dashboard/DashboardViewModel.kt": {
+    "mtime": 1784537663.38174,
+    "seen": 1787234795.6222217,
+    "ast_hash": "b269d86483c55092f382ee65af2aef60",
+    "semantic_hash": "b269d86483c55092f382ee65af2aef60"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/onboarding/OnboardingScreen.kt": {
+    "mtime": 1784725201.8468232,
+    "seen": 1787234795.6222227,
+    "ast_hash": "6d3c70c6d7884374c2dba44619325516",
+    "semantic_hash": "6d3c70c6d7884374c2dba44619325516"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/onboarding/OnboardingViewModel.kt": {
+    "mtime": 1784725201.847823,
+    "seen": 1787234795.6222236,
+    "ast_hash": "3fa6f886dcde26a6ddf75c7dfeb11cac",
+    "semantic_hash": "3fa6f886dcde26a6ddf75c7dfeb11cac"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/scan/ScanReceiptScreen.kt": {
+    "mtime": 1786800837.799306,
+    "seen": 1787234795.6222243,
+    "ast_hash": "e9093a1eafbeaac1669ab2befe7e2ee0",
+    "semantic_hash": "e9093a1eafbeaac1669ab2befe7e2ee0"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/scan/ScanReceiptViewModel.kt": {
+    "mtime": 1786710597.4818254,
+    "seen": 1787234795.622225,
+    "ast_hash": "a24396d69577bc48c751bdde1fb8d35f",
+    "semantic_hash": "a24396d69577bc48c751bdde1fb8d35f"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/splash/SplashScreen.kt": {
+    "mtime": 1784725201.8488228,
+    "seen": 1787234795.622226,
+    "ast_hash": "d0624094e3cb5a38f3db4d0545508f03",
+    "semantic_hash": "d0624094e3cb5a38f3db4d0545508f03"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/splash/SplashViewModel.kt": {
+    "mtime": 1784725201.8498237,
+    "seen": 1787234795.6222267,
+    "ast_hash": "adb9b92fa4a435055683a8f72baf9a99",
+    "semantic_hash": "adb9b92fa4a435055683a8f72baf9a99"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/statistics/StatisticsScreen.kt": {
+    "mtime": 1786710597.4828322,
+    "seen": 1787234795.6222274,
+    "ast_hash": "90d353f229c0e1178404dbcc67a1af2e",
+    "semantic_hash": "90d353f229c0e1178404dbcc67a1af2e"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/statistics/StatisticsViewModel.kt": {
+    "mtime": 1786198695.872741,
+    "seen": 1787234795.6222281,
+    "ast_hash": "e8e8e314d3f4e0033d1754d3f118662e",
+    "semantic_hash": "e8e8e314d3f4e0033d1754d3f118662e"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/transaction/AddTransactionScreen.kt": {
+    "mtime": 1786790825.7070165,
+    "seen": 1787234795.622229,
+    "ast_hash": "f4dbd4eb208486882aa9e0b86297697d",
+    "semantic_hash": "f4dbd4eb208486882aa9e0b86297697d"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/transaction/TransactionListScreen.kt": {
+    "mtime": 1786790825.7090194,
+    "seen": 1787234795.62223,
+    "ast_hash": "e89d183d58fe2052d24fcb07595f73a2",
+    "semantic_hash": "e89d183d58fe2052d24fcb07595f73a2"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/transaction/TransactionListViewModel.kt": {
+    "mtime": 1786198695.8782544,
+    "seen": 1787234795.6222308,
+    "ast_hash": "d71a3fe505fcb8297076bc89fd8a05ef",
+    "semantic_hash": "d71a3fe505fcb8297076bc89fd8a05ef"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/transaction/TransactionUiState.kt": {
+    "mtime": 1784537663.3827384,
+    "seen": 1787234795.6222315,
+    "ast_hash": "8e50d068a819aa55489e05f86c830839",
+    "semantic_hash": "8e50d068a819aa55489e05f86c830839"
+  },
+  "app/src/main/java/com/financeapp/presentation/screen/transaction/TransactionViewModel.kt": {
+    "mtime": 1784704465.4836729,
+    "seen": 1787234795.622233,
+    "ast_hash": "b56d198cf04655538581b611dc47891c",
+    "semantic_hash": "b56d198cf04655538581b611dc47891c"
+  },
+  "app/src/main/java/com/financeapp/presentation/theme/Color.kt": {
+    "mtime": 1786369997.5374453,
+    "seen": 1787234795.6222336,
+    "ast_hash": "716517fc0cfd22274b2a6745183db4a1",
+    "semantic_hash": "716517fc0cfd22274b2a6745183db4a1"
+  },
+  "app/src/main/java/com/financeapp/presentation/theme/Theme.kt": {
+    "mtime": 1786369997.539227,
+    "seen": 1787234795.6222346,
+    "ast_hash": "e9f9531598a4281b5b9a58eda7b23032",
+    "semantic_hash": "e9f9531598a4281b5b9a58eda7b23032"
+  },
+  "app/src/main/java/com/financeapp/presentation/theme/Type.kt": {
+    "mtime": 1786369997.539971,
+    "seen": 1787234795.6222353,
+    "ast_hash": "3a9870228f6b194411fa7f537ae41ee2",
+    "semantic_hash": "3a9870228f6b194411fa7f537ae41ee2"
+  },
+  "app/src/test/java/com/financeapp/ExampleUnitTest.kt": {
+    "mtime": 1786198695.8835223,
+    "seen": 1787234795.6222363,
+    "ast_hash": "e73414cd65f95f62a85dc3d169ac9431",
+    "semantic_hash": "e73414cd65f95f62a85dc3d169ac9431"
+  },
+  "app/src/test/java/com/financeapp/domain/usecase/AddTransactionUseCaseTest.kt": {
+    "mtime": 1786198695.8857737,
+    "seen": 1787234795.622237,
+    "ast_hash": "e58f2e1bf5e5321c2a2c8375e6237a45",
+    "semantic_hash": "e58f2e1bf5e5321c2a2c8375e6237a45"
+  },
+  "build.gradle.kts": {
+    "mtime": 1786198695.887271,
+    "seen": 1787234795.6222377,
+    "ast_hash": "dda5842ec48c5a7bb34fc692a7da47f2",
+    "semantic_hash": "dda5842ec48c5a7bb34fc692a7da47f2"
+  },
+  "gradlew": {
+    "mtime": 1783164163.0895066,
+    "seen": 1787234795.6222386,
+    "ast_hash": "266606e78242737ef3da02a80ea0564d",
+    "semantic_hash": "266606e78242737ef3da02a80ea0564d"
+  },
+  "settings.gradle.kts": {
+    "mtime": 1783164164.0423803,
+    "seen": 1787234795.6222396,
+    "ast_hash": "0368d0b9b07b554ad86e86c54216f5ab",
+    "semantic_hash": "0368d0b9b07b554ad86e86c54216f5ab"
+  },
+  "PRD.md": {
+    "mtime": 1786369997.5221627,
+    "seen": 1787234795.6222403,
+    "ast_hash": "fa8d8e5cd557c8691f652f6b36b6f22d",
+    "semantic_hash": "fa8d8e5cd557c8691f652f6b36b6f22d"
+  },
+  "app/src/main/ic_launcher-playstore.png": {
+    "mtime": 1786803447.2653284,
+    "seen": 1787234795.6222413,
+    "ast_hash": "1efe46d406eac05dd20543b6d8288ae3",
+    "semantic_hash": "1efe46d406eac05dd20543b6d8288ae3"
+  },
+  "app/src/main/res/mipmap-hdpi/ic_launcher.webp": {
+    "mtime": 1786803447.3515062,
+    "seen": 1787234795.622242,
+    "ast_hash": "dbaa4c9ca6f2836f7be07dad7c8fd141",
+    "semantic_hash": "dbaa4c9ca6f2836f7be07dad7c8fd141"
+  },
+  "app/src/main/res/mipmap-mdpi/ic_launcher.webp": {
+    "mtime": 1786803447.2833347,
+    "seen": 1787234795.622243,
+    "ast_hash": "9b7a7d24c68e0b063126bff354947260",
+    "semantic_hash": "9b7a7d24c68e0b063126bff354947260"
+  },
+  "app/src/main/res/mipmap-xhdpi/ic_launcher.webp": {
+    "mtime": 1786803447.0506928,
+    "seen": 1787234795.6222436,
+    "ast_hash": "8bcdf55dddef3a37e45dae834e1b6b8f",
+    "semantic_hash": "8bcdf55dddef3a37e45dae834e1b6b8f"
+  },
+  "app/src/main/res/mipmap-xxhdpi/ic_launcher.webp": {
+    "mtime": 1786803447.382511,
+    "seen": 1787234795.6222446,
+    "ast_hash": "ed4cbb88e866abb2827bc85a4bdbf2da",
+    "semantic_hash": "ed4cbb88e866abb2827bc85a4bdbf2da"
+  },
+  "app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp": {
+    "mtime": 1786803447.180566,
+    "seen": 1787234795.6222453,
+    "ast_hash": "a7157d5a69367b3ada295a25dd8128a3",
+    "semantic_hash": "a7157d5a69367b3ada295a25dd8128a3"
+  }
+}

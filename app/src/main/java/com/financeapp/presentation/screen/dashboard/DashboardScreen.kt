@@ -1,5 +1,6 @@
 package com.financeapp.presentation.screen.dashboard
 
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -20,13 +21,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Construction
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Button
@@ -40,9 +41,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -65,11 +68,15 @@ import com.financeapp.presentation.theme.TextSecondary
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.financeapp.presentation.component.bounceClick
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun DashboardScreen(
     onNavigateToAddTransaction: () -> Unit,
@@ -84,6 +91,11 @@ fun DashboardScreen(
     var showNotificationSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val notificationPermission = rememberPermissionState(
+        permission = android.Manifest.permission.POST_NOTIFICATIONS
+    )
+    var showTimePicker by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let { message ->
@@ -139,7 +151,11 @@ fun DashboardScreen(
                     }
                 }
                 Spacer(modifier = Modifier.height(24.dp))
-                BalanceCard(balanceInfo = uiState.balanceInfo)
+                BalanceCard(
+                    balanceInfo = uiState.balanceInfo,
+                    isBalanceHidden = uiState.isBalanceHidden,
+                    onToggleVisibility = viewModel::toggleBalanceVisibility
+                )
             }
 
             Card(
@@ -337,7 +353,7 @@ fun DashboardScreen(
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
-    // ── Bottom Sheet "Fitur Dalam Pengembangan" ──────────────
+    // ── Bottom Sheet Pengaturan Notifikasi ──────────────
     if (showNotificationSheet) {
         ModalBottomSheet(
             onDismissRequest = { showNotificationSheet = false },
@@ -351,52 +367,104 @@ fun DashboardScreen(
                     .padding(horizontal = 24.dp)
                     .padding(bottom = 40.dp, top = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 Box(
                     modifier = Modifier
-                        .size(72.dp)
+                        .size(64.dp)
                         .clip(CircleShape)
                         .background(Indigo500.copy(alpha = 0.12f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Construction,
+                        imageVector = Icons.Default.Notifications,
                         contentDescription = null,
                         tint = Indigo500,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 }
 
-                Text(
-                    text = "Fitur Sedang Dikembangkan 🚀",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "Pengingat Harian 🔔",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = "Dapatkan notifikasi pengingat untuk mencatat pengeluaran setiap hari.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                }
 
-                Text(
-                    text = "Notifikasi cerdas seperti Pengingat Catat Pengeluaran Harian dan Peringatan Batas Anggaran (Budget Alert) akan hadir pada pembaruan mendatang!",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center
-                )
+                // Card Switch Pengingat
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Aktifkan Pengingat",
+                                fontWeight = FontWeight.SemiBold,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                            Text(
+                                text = String.format("Setiap hari pukul %02d:%02d WIB", uiState.reminderHour, uiState.reminderMinute),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Switch(
+                            checked = uiState.isReminderEnabled,
+                            onCheckedChange = { isChecked ->
+                                if (isChecked) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notificationPermission.status.isGranted) {
+                                        notificationPermission.launchPermissionRequest()
+                                    }
+                                    viewModel.setReminderEnabled(true, context)
+                                } else {
+                                    viewModel.setReminderEnabled(false, context)
+                                }
+                            }
+                        )
+                    }
+                }
 
-                Spacer(modifier = Modifier.height(8.dp))
+                // Tombol Tes Notifikasi Langsung
+                OutlinedButton(
+                    onClick = {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notificationPermission.status.isGranted) {
+                            notificationPermission.launchPermissionRequest()
+                        }
+                        viewModel.testNotification(context)
+                    },
+                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Icon(Icons.Default.Notifications, contentDescription = null, modifier = Modifier.size(18.dp))
+                    Spacer(Modifier.width(8.dp))
+                    Text("Tes Notifikasi Sekarang")
+                }
 
+                // Tombol Tutup
                 Button(
                     onClick = { showNotificationSheet = false },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Indigo500),
                     shape = RoundedCornerShape(14.dp)
                 ) {
-                    Text(
-                        text = "Mengerti",
-                        fontWeight = FontWeight.SemiBold,
-                        color = TextOnDark
-                    )
+                    Text("Selesai", fontWeight = FontWeight.SemiBold, color = TextOnDark)
                 }
             }
         }

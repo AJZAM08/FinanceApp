@@ -14,7 +14,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +38,9 @@ import com.financeapp.presentation.theme.Violet500
 @Composable
 fun BalanceCard(
     balanceInfo: BalanceInfo,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isBalanceHidden: Boolean = false,
+    onToggleVisibility: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -45,18 +50,44 @@ fun BalanceCard(
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Text(
-                text = "Total Saldo",
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextOnDark.copy(alpha = 0.75f)
-            )
-            AnimatedCurrencyText(
-                amount = balanceInfo.balance.toDouble(),
-                prefix = "Rp ",
-                textStyle = MaterialTheme.typography.headlineMedium.copy(fontSize = 32.sp),
-                fontWeight = FontWeight.Bold,
-                color = TextOnDark
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = "Total Saldo",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = TextOnDark.copy(alpha = 0.75f)
+                )
+                IconButton(
+                    onClick = onToggleVisibility,
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        imageVector = if (isBalanceHidden) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                        contentDescription = if (isBalanceHidden) "Tampilkan Saldo" else "Sembunyikan Saldo",
+                        tint = TextOnDark.copy(alpha = 0.75f),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+            }
+
+            if (isBalanceHidden) {
+                Text(
+                    text = "Rp ••••••",
+                    style = MaterialTheme.typography.headlineMedium.copy(fontSize = 32.sp),
+                    fontWeight = FontWeight.Bold,
+                    color = TextOnDark
+                )
+            } else {
+                AnimatedCurrencyText(
+                    amount = balanceInfo.balance.toDouble(),
+                    prefix = "Rp ",
+                    textStyle = MaterialTheme.typography.headlineMedium.copy(fontSize = 32.sp),
+                    fontWeight = FontWeight.Bold,
+                    color = TextOnDark
+                )
+            }
         }
 
         Box(
@@ -104,13 +135,22 @@ fun BalanceCard(
                         style = MaterialTheme.typography.labelMedium,
                         color = TextOnDark.copy(alpha = 0.7f)
                     )
-                    AnimatedCurrencyText(
-                        amount = balanceInfo.totalIncome.toDouble(),
-                        prefix = "Rp ",
-                        textStyle = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = IncomeGreenLight
-                    )
+                    if (isBalanceHidden) {
+                        Text(
+                            text = "Rp ••••••",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = IncomeGreenLight
+                        )
+                    } else {
+                        AnimatedCurrencyText(
+                            amount = balanceInfo.totalIncome.toDouble(),
+                            prefix = "Rp ",
+                            textStyle = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = IncomeGreenLight
+                        )
+                    }
                 }
             }
 
@@ -121,7 +161,7 @@ fun BalanceCard(
                     .background(TextPrimary.copy(alpha = 0.2f))
             )
 
-            // ── Box Pemasukan ────────────────────────────────────────
+            // ── Box Pengeluaran ────────────────────────────────────────
             Row(
                 modifier = Modifier
                     .weight(1f)
@@ -153,13 +193,22 @@ fun BalanceCard(
                         style = MaterialTheme.typography.labelMedium,
                         color = TextOnDark.copy(alpha = 0.7f)
                     )
-                    AnimatedCurrencyText(
-                        amount = balanceInfo.totalExpense.toDouble(),
-                        prefix = "Rp ",
-                        textStyle = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = ExpenseRedLight
-                    )
+                    if (isBalanceHidden) {
+                        Text(
+                            text = "Rp ••••••",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = ExpenseRedLight
+                        )
+                    } else {
+                        AnimatedCurrencyText(
+                            amount = balanceInfo.totalExpense.toDouble(),
+                            prefix = "Rp ",
+                            textStyle = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = ExpenseRedLight
+                        )
+                    }
                 }
             }
         }
